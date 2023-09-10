@@ -1,0 +1,35 @@
+# vim: syntax=tmux:
+# Behavior
+set -g base-index 1
+set -g pane-base-index 1
+set -g default-terminal "screen-256color"
+set -g mode-keys vi
+set -g history-limit 50000
+set -g display-time 2000
+set -g monitor-activity on
+set -g mouse on
+set -g status-left-length 20
+{{ if contains "WSL2" .chezmoi.kernel.osrelease -}}
+set -g copy-command '/mnt/c/WINDOWS/system32/clip.exe'  # WSL clipboard hack
+{{- end }}
+unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
+
+# Colors
+# Theme 1
+set -g status-fg colour51
+set -g status-bg colour26
+set-window-option -g window-status-current-style fg=black,bg=colour45
+set-window-option -g window-status-style fg=colour51,bg=colour33
+set-window-option -g window-status-activity-style fg=black,bg=colour9
+
+# Keybindings
+bind u setw synchronize-panes
+
+## Open panes in the current directory
+bind  %  split-window -h -c "#{pane_current_path}"
+bind '"' split-window -v -c "#{pane_current_path}"
+
+## Move panes to other windows
+bind  @  choose-window 'join-pane -h -s "%%"'
+bind '#' choose-window 'join-pane -s "%%"'
+
