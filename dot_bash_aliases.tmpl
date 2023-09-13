@@ -6,6 +6,8 @@
 # esac
 # {{- $winUserName := "" }}
 
+# Disable crtl-s ctrl-q
+stty -ixon
 
 # Environment Variables
 PATH="${PATH}:$(readlink -f ~/.local/bin)"
@@ -46,7 +48,7 @@ function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
 
 
-# KeePass WSL2 SSH agent {{ if contains "WSL2" .chezmoi.kernel.osrelease -}}
+# KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
