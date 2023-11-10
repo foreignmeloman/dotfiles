@@ -4,14 +4,13 @@
 #   *i*) lsb_release -d ;;
 #   *)
 # esac
-# {{- $winUserName := "" }}
 
 # Disable crtl-s ctrl-q
 stty -ixon
 
 # Environment Variables
 PATH="${PATH}:$(readlink -f ~/.local/bin)"
-# WSL PATH config {{ if contains "WSL2" .chezmoi.kernel.osrelease -}}
+# WSL PATH config {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
 PATH="${PATH}:/mnt/c/Windows/system32"
@@ -40,6 +39,12 @@ alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias bat='batcat'
+{{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+alias clip='/mnt/c/WINDOWS/system32/clip.exe'
+{{- else }}
+alias clip='xclip -sel clip'
+{{- end }}
+
 
 
 # Functions
@@ -49,6 +54,7 @@ function teehee { tee ${1}|less; }
 
 
 # KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+# {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
