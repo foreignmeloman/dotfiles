@@ -6,11 +6,14 @@ set -g default-terminal "screen-256color"
 set -g mode-keys vi
 set -g history-limit 50000
 set -g display-time 2000
+set -g display-panes-time 4000
 set -g monitor-activity on
 set -g mouse on
 set -g status-left-length 20
-{{ if contains "WSL2" .chezmoi.kernel.osrelease -}}
+{{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 set -g copy-command '/mnt/c/WINDOWS/system32/clip.exe'  # WSL clipboard hack
+{{- else }}
+set -g copy-command 'xclip -sel clip'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
 

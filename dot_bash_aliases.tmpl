@@ -4,14 +4,13 @@
 #   *i*) lsb_release -d ;;
 #   *)
 # esac
-# {{- $winUserName := "" }}
 
 # Disable crtl-s ctrl-q
 stty -ixon
 
 # Environment Variables
-PATH="${PATH}:$(readlink -f ~/.local/bin)"
-# WSL PATH config {{ if contains "WSL2" .chezmoi.kernel.osrelease -}}
+PATH="${PATH}:${HOME}/.local/bin):${HOME}/.krew/bin"
+# WSL PATH config {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
 PATH="${PATH}:/mnt/c/Windows/system32"
@@ -21,11 +20,13 @@ PATH="${PATH}:/mnt/c/Users/{{ $winUserName }}/AppData/Local/Programs/Microsoft V
 export PATH
 export PS1='\[\033[38;5;10m\]┌\[\033[38;5;39m\][\u@\[\033[38;5;10m\]\h\[\033[38;5;39m\]:\[\033[38;5;14m\]\w\[\033[38;5;39m\]]$(_tmp=$?; test "$(type -t __git_ps1)" = "function" && __git_ps1 "-[\033[38;5;10m%s\033[38;5;39m]"; [[ ${_tmp} != 0 ]] && echo "-[\[\033[0;91m\]${_tmp}\[\033[38;5;39m\]]")\n\[\033[38;5;10m\]└>>>\$ \[$(tput sgr0)\]'
 export EDITOR=vim
+export SYSTEMD_EDITOR=vim
 export BAT_STYLE='plain'
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 
 # Aliases
-alias rm='rm -i'
+alias rm='/bin/rm'
 alias cp='cp -i'
 alias mv='mv -i'
 alias ls='ls -a --color --group-directories-first --time-style=long-iso'
@@ -39,7 +40,13 @@ alias rdl='redial'
 alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
-alias bat='batcat'
+# alias bat='batcat'
+{{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+alias clip='/mnt/c/WINDOWS/system32/clip.exe'
+{{- else }}
+alias clip='xclip -sel clip'
+{{- end }}
+
 
 
 # Functions
@@ -49,6 +56,7 @@ function teehee { tee ${1}|less; }
 
 
 # KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+# {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
@@ -59,12 +67,11 @@ function _ssh_agent_wsl_proxy {
   fi
 }
 
-export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 _ssh_agent_wsl_proxy $SSH_AUTH_SOCK
 # KeePass WSL2 SSH agent END {{- end }}
 
 # tmux
-if ! env | grep -q '^VSCODE' && [ -z "${TMUX}" ]; then
+if ! [ "${TERM_PROGRAM}" == 'vscode' ] && [ -z "${TMUX}" ]; then
   if tmux ls 2> /dev/null | grep -qP "^main:"; then
     tmux a -t main
   else
@@ -135,3 +142,8 @@ if [ ! -z "$(which chezmoi)" ]; then
 fi
 # chezmoi END
 
+# ruff
+if [ ! -z "$(which ruff)" ]; then
+  source <(ruff generate-shell-completion bash)
+fi
+# ruff END
