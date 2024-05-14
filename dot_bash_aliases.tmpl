@@ -9,7 +9,7 @@
 stty -ixon
 
 # Environment Variables
-PATH="${PATH}:${HOME}/.local/bin):${HOME}/.krew/bin"
+PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
 # WSL PATH config {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
