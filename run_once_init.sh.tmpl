@@ -1,0 +1,6 @@
+#!/bin/bash
+# vim: syntax=bash:
+
+# WSL {{- if not (contains "microsoft" (lower .chezmoi.kernel.osrelease)) }}
+systemctl --user enable --now ssh-agent
+# WSL END {{- end }}

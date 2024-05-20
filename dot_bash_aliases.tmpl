@@ -41,7 +41,7 @@ alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 # alias bat='batcat'
-{{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+{{- if contains "microsoft" (lower .chezmoi.kernel.osrelease) }}
 alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 {{- else }}
 alias clip='xclip -sel clip'
@@ -55,7 +55,7 @@ function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
 
 
-# KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+# KeePass WSL2 SSH agent {{- if contains "microsoft" (lower .chezmoi.kernel.osrelease) }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
