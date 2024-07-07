@@ -46,6 +46,10 @@ alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 {{- else }}
 alias clip='xclip -sel clip'
 {{- end }}
+if [ ! -z "$(which nvim 2> /dev/null)" ]; then
+  alias vim='nvim'
+  export EDITOR='nvim'
+fi
 
 
 
