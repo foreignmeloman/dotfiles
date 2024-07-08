@@ -9,6 +9,9 @@
 stty -ixon
 
 # Environment Variables
+# openSUSE fix missing sbin {{- if eq .chezmoi.osRelease.id "opensuse-tumbleweed" }}
+PATH="${PATH}:/usr/sbin"
+# openSUSE fix missing sbin END {{- end }}
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
 # WSL PATH config {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
