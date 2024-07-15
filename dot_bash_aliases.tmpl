@@ -143,14 +143,20 @@ if [ ! -z "$(which helm 2> /dev/null)" ]; then
 fi
 # helm END
 
-# cezmoi
+# cezmoi ########################################
 if [ ! -z "$(which chezmoi 2> /dev/null)" ]; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
 
-# ruff
+# ruff ##########################################
 if [ ! -z "$(which ruff 2> /dev/null)" ]; then
   source <(ruff generate-shell-completion bash)
 fi
 # ruff END
+
+# pipx ##########################################
+if [ ! -z "$(which pipx 2> /dev/null)" ]; then
+  source <(register-python-argcomplete pipx)
+fi
+# pipx END
