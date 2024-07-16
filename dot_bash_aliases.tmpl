@@ -8,18 +8,24 @@
 # Disable crtl-s ctrl-q
 stty -ixon
 
-# Environment Variables
-# openSUSE fix missing sbin {{- if eq .chezmoi.osRelease.id "opensuse-tumbleweed" }}
+# Environment Variables #########################
+
+# {{- if eq .chezmoi.osRelease.id "opensuse-tumbleweed" }}
+# openSUSE fix missing sbin
 PATH="${PATH}:/usr/sbin"
 # openSUSE fix missing sbin END {{- end }}
+
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
-# WSL PATH config {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+
+# {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+# WSL2 PATH config
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
 PATH="${PATH}:/mnt/c/Windows/system32"
 PATH="${PATH}:/mnt/c/Program Files/Rancher Desktop/resources/resources/linux/bin"
 PATH="${PATH}:/mnt/c/Users/{{ $winUserName }}/AppData/Local/Programs/Microsoft VS Code/bin"
-# WSL PATH config END {{- end }}
+# WSL2 PATH config END {{- end }}
+
 export PATH
 export PS1='\[\033[38;5;10m\]┌\[\033[38;5;39m\][\u@\[\033[38;5;10m\]\h\[\033[38;5;39m\]:\[\033[38;5;14m\]\w\[\033[38;5;39m\]]$(_tmp=$?; test "$(type -t __git_ps1)" = "function" && __git_ps1 "-[\033[38;5;10m%s\033[38;5;39m]"; [[ ${_tmp} != 0 ]] && echo "-[\[\033[0;91m\]${_tmp}\[\033[38;5;39m\]]")\n\[\033[38;5;10m\]└>>>\$ \[$(tput sgr0)\]'
 export EDITOR=vim
@@ -28,7 +34,7 @@ export BAT_STYLE='plain'
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-${HOME}/.ssh}/ssh-agent.socket"
 
 
-# Aliases
+# Aliases #######################################
 alias rm='/bin/rm'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -56,13 +62,13 @@ fi
 
 
 
-# Functions
+# Functions #####################################
 function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
 
 
-# KeePass WSL2 SSH agent {{- if contains "microsoft" (lower .chezmoi.kernel.osrelease) }}
+# KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
@@ -77,7 +83,7 @@ function _ssh_agent_wsl_proxy {
 _ssh_agent_wsl_proxy $SSH_AUTH_SOCK
 # KeePass WSL2 SSH agent END {{- end }}
 
-# tmux
+# tmux ##########################################
 if ! [ "${TERM_PROGRAM}" == 'vscode' ] && [ -z "${TMUX}" ]; then
   if tmux ls 2> /dev/null | grep -qP "^main:"; then
     tmux a -t main
@@ -105,7 +111,7 @@ function complete_retmux {
 complete -o nospace -F complete_retmux retmux
 # tmux END
 
-# Terraform
+# Terraform #####################################
 _tf_path="$(which terraform 2> /dev/null)"
 if [ ! -z "${_tf_path}" ]; then
   alias tf='terraform'
@@ -115,13 +121,13 @@ fi
 unset _tf_path
 # Terraform END
 
-# yq
+# yq ############################################
 if [ ! -z "$(which yq 2> /dev/null)" ]; then
   source <(yq shell-completion bash)
 fi
 # yq END
 
-# kubectl
+# kubectl #######################################
 if [ ! -z "$(which kubectl 2> /dev/null)" ]; then
   source <(kubectl completion bash)
   alias k=kubectl
@@ -129,7 +135,7 @@ if [ ! -z "$(which kubectl 2> /dev/null)" ]; then
 fi
 # kubectl END
 
-# helm
+# helm ##########################################
 if [ ! -z "$(which helm 2> /dev/null)" ]; then
   source <(helm completion bash 2> /dev/null)
   function hupgrade {
