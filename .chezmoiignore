@@ -1,1 +1,4 @@
 README.md
+pyproject.toml
+pyinfra/
+pyinfra-debug.log

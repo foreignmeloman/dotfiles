@@ -1,0 +1,14 @@
+[tool.pylint."messages control"]
+disable = [
+	"missing-module-docstring",
+	"missing-class-docstring",
+	"missing-function-docstring",
+	"invalid-name",
+	"unspecified-encoding",
+]
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.format]
+quote-style = "single"

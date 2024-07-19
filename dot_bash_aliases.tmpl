@@ -10,7 +10,7 @@ stty -ixon
 
 # Environment Variables #########################
 
-# {{- if eq .chezmoi.osRelease.id "opensuse-tumbleweed" }}
+# {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
 # openSUSE fix missing sbin
 PATH="${PATH}:/usr/sbin"
 # openSUSE fix missing sbin END {{- end }}
@@ -61,12 +61,17 @@ if [ ! -z "$(which nvim 2> /dev/null)" ]; then
 fi
 
 
-
 # Functions #####################################
 function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
+function _code_wayland {
+  /usr/bin/code --ozone-platform=wayland "$@"
+}
 
+if [ $XDG_SESSION_TYPE == 'wayland' ]; then
+  alias code='_code_wayland'
+fi
 
 # KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
