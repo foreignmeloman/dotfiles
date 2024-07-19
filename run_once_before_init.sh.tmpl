@@ -1,0 +1,11 @@
+#!/bin/bash
+# vim: syntax=bash:
+set -e
+
+# {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
+sudo zypper --non-interactive install -y python3-pipx
+# {{- end }}
+
+# {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
+sudo apt-get update && sudo apt-get install -y pipx
+# {{- end }}

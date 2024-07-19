@@ -1,6 +1,6 @@
 from pyinfra import host
 from pyinfra.facts.server import LinuxName, Home, KernelVersion
-from pyinfra.operations import zypper, files, python, systemd
+from pyinfra.operations import apt, zypper, files, python, systemd
 
 import utils
 
@@ -49,6 +49,18 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
             'lf',
             'tmux',
             'yq',
+        ],
+        _sudo=True,
+    )
+
+
+if host.get_fact(LinuxName) == 'Ubuntu':
+    apt.packages(
+        name='Install required packages',
+        packages=[
+            'btop',
+            'gdu',
+            'tmux',
         ],
         _sudo=True,
     )

@@ -10,16 +10,22 @@ stty -ixon
 
 # Environment Variables #########################
 
+# {{- $registerPythonArgcomplete := ""}} {{- $winUserName := "" }}
+
 # {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
-# openSUSE fix missing sbin
+# {{- $registerPythonArgcomplete = "register-python-argcomplete"}}
 PATH="${PATH}:/usr/sbin"
-# openSUSE fix missing sbin END {{- end }}
+# {{- end }}
+
+# {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
+# {{- $registerPythonArgcomplete = "register-python-argcomplete3"}}
+# {{- end }}
 
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
 
 # {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 # WSL2 PATH config
-# {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
+# {{- $winUserName = output "sh" "-c" "/mnt/c/Windows/system32/cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
 PATH="${PATH}:/mnt/c/Windows/system32"
 PATH="${PATH}:/mnt/c/Program Files/Rancher Desktop/resources/resources/linux/bin"
@@ -49,13 +55,12 @@ alias rdl='redial'
 alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
-# alias bat='batcat'
-{{- if contains "microsoft" (lower .chezmoi.kernel.osrelease) }}
+# {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 alias clip='/mnt/c/WINDOWS/system32/clip.exe'
-{{- else }}
+# {{- else }}
 alias clip='xclip -sel clip'
-{{- end }}
-if [ ! -z "$(which nvim 2> /dev/null)" ]; then
+# {{- end }}
+if [ ! -z "$(command -v nvim)" ]; then
   alias vim='nvim'
   export EDITOR='nvim'
 fi
@@ -74,7 +79,6 @@ if [ $XDG_SESSION_TYPE == 'wayland' ]; then
 fi
 
 # KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
-# {{- $winUserName := output "sh" "-c" "cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
@@ -117,7 +121,7 @@ complete -o nospace -F complete_retmux retmux
 # tmux END
 
 # Terraform #####################################
-_tf_path="$(which terraform 2> /dev/null)"
+_tf_path="$(command -v terraform)"
 if [ ! -z "${_tf_path}" ]; then
   alias tf='terraform'
   complete -C "${_tf_path}" terraform
@@ -127,13 +131,13 @@ unset _tf_path
 # Terraform END
 
 # yq ############################################
-if [ ! -z "$(which yq 2> /dev/null)" ]; then
+if [ ! -z "$(command -v yq)" ]; then
   source <(yq shell-completion bash)
 fi
 # yq END
 
 # kubectl #######################################
-if [ ! -z "$(which kubectl 2> /dev/null)" ]; then
+if [ ! -z "$(command -v kubectl)" ]; then
   source <(kubectl completion bash)
   alias k=kubectl
   complete -o default -F __start_kubectl k
@@ -141,7 +145,7 @@ fi
 # kubectl END
 
 # helm ##########################################
-if [ ! -z "$(which helm 2> /dev/null)" ]; then
+if [ ! -z "$(command -v helm)" ]; then
   source <(helm completion bash 2> /dev/null)
   function hupgrade {
     local chart_dir=$(readlink -f $1)
@@ -155,19 +159,19 @@ fi
 # helm END
 
 # cezmoi ########################################
-if [ ! -z "$(which chezmoi 2> /dev/null)" ]; then
+if [ ! -z "$(command -v chezmoi)" ]; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
 
 # ruff ##########################################
-if [ ! -z "$(which ruff 2> /dev/null)" ]; then
+if [ ! -z "$(command -v ruff)" ]; then
   source <(ruff generate-shell-completion bash)
 fi
 # ruff END
 
 # pipx ##########################################
-if [ ! -z "$(which pipx 2> /dev/null)" ]; then
-  source <(register-python-argcomplete pipx)
+if [ ! -z "$(command -v pipx)" ]; then
+  source <({{ $registerPythonArgcomplete }} pipx)
 fi
 # pipx END

@@ -6,13 +6,5 @@ set -e
 # pyinfra/deploy.py hash: {{ include "pyinfra/deploy.py" | sha256sum }}
 # pyinfra/utils.py hash: {{ include "pyinfra/utils.py" | sha256sum }}
 
-# {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
-sudo zypper --non-interactive install -y python3-pipx
-# {{- end }}
-
-# {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
-sudo apt-get update && sudo apt-get install -y pipx
-# {{- end }}
-
 pipx install pyinfra
 pyinfra inventory.py deploy.py -yv --chdir {{ .chezmoi.sourceDir }}/pyinfra
