@@ -1,0 +1,16 @@
+[Appearance]
+Skin=breeze_dark
+SkinInstalledWithKns=true
+
+[Desktop Entry]
+DefaultProfile=main.profile
+
+[Dialogs]
+FirstRun=false
+
+[Window]
+Height=100
+ShowOnAllDesktops=false
+ShowTabBar=false
+ShowTitleBar=false
+Width=100
