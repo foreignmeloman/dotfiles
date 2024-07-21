@@ -45,6 +45,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
         packages=[
             'btop',
             'gdu',
+            'git',
             'k9s',
             'lf',
             'tmux',
@@ -60,6 +61,7 @@ if host.get_fact(LinuxName) == 'Ubuntu':
         packages=[
             'btop',
             'gdu',
+            'git',
             'tmux',
         ],
         _sudo=True,
