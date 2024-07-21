@@ -21,6 +21,7 @@ files.directory(
     path=FONTS_ARCHIVES_DIR,
 )
 
+
 for font_name in ['Hack.tar.xz', 'RobotoMono.tar.xz']:
     font = utils.NerdFont(font_name, 'v3.2.1')
     font_file = f'{FONTS_ARCHIVES_DIR}/{font.basename}'
@@ -55,10 +56,11 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
         _sudo=True,
     )
 
-    files.link(
-        name='Link alias file',
-        path=f'{host.get_fact(Home)}/.alias',
-        target=f'{host.get_fact(Home)}/.bash_aliases',
+    files.line(
+        name='Use .bash_aliases',
+        path=f'{host.get_fact(Home)}/.bashrc',
+        line=r'test -s ~/.alias && . ~/.alias || true',
+        replace=r'test -s ~/.bash_aliases && . ~/.bash_aliases || true',
     )
 
 
