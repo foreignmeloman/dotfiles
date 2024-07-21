@@ -4,6 +4,7 @@ from pyinfra.operations import apt, zypper, files, python, systemd
 
 import utils
 
+
 if host.get_fact(KernelVersion).count('microsoft') == 0:
     systemd.service(
         name='Enable ssh-agent user service',
@@ -52,6 +53,12 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
             'yq',
         ],
         _sudo=True,
+    )
+
+    files.link(
+        name='Link alias file',
+        path=f'{host.get_fact(Home)}/.alias',
+        target=f'{host.get_fact(Home)}/.bash_aliases',
     )
 
 
