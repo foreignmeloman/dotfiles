@@ -3,8 +3,6 @@ import os
 import tarfile
 import urllib.request
 
-from pyinfra import logger
-
 
 def _exclude_tarfile_members(
     tar_archive: tarfile.TarFile = None,

@@ -10,20 +10,24 @@ Tested on:
 
 ### Quick bootstrap
 
-Install chezmoi:
-
+Install chezmoi on Ubuntu:
 ```bash
 BINDIR=$HOME/.local/bin sh -c "$(curl -fsLS get.chezmoi.io)"
+```
+
+Install chezmoi on Tumbleweed:
+```bash
+sudo zypper in -y chezmoi
 ```
 
 Init command for the repo owner:
 
 ```bash
-$HOME/.local/bin/chezmoi init --apply git@github.com:foreignmeloman/dotfiles.git
+chezmoi init --apply git@github.com:foreignmeloman/dotfiles.git
 ```
 
 Init command for the guests:
 
 ```bash
-$HOME/.local/bin/chezmoi init --apply foreignmeloman
+chezmoi init --apply foreignmeloman
 ```
