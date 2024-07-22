@@ -46,6 +46,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
         name='Install required packages',
         packages=[
             'btop',
+            'fetchmsttfonts',
             'gdu',
             'git',
             'gping',
