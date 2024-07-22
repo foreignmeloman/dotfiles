@@ -16,6 +16,7 @@ set -g copy-command '/mnt/c/WINDOWS/system32/clip.exe'  # WSL clipboard hack
 set -g copy-command 'xclip -sel clip'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
+set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
 
 # Colors
 # Theme 1
