@@ -78,3 +78,11 @@ if host.get_fact(LinuxName) == 'Ubuntu':
         ],
         _sudo=True,
     )
+
+
+files.put(
+    name='Lower the default metric value for the Network Manager',
+    src='files/default-route-metric.conf',
+    dest='/etc/NetworkManager/conf.d/',
+    _sudo=True,
+)
