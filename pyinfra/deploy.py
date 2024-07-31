@@ -17,6 +17,10 @@ if host.get_fact(KernelVersion).count('microsoft') == 0:
 HOME_DIR = host.get_fact(Home)
 FONTS_DIR = f'{HOME_DIR}/.local/share/fonts'
 FONTS_ARCHIVES_DIR = f'{FONTS_DIR}/archives'
+NERD_FONTS = {
+    'version': 'v3.2.1',
+    'fonts': ['Hack.tar.xz', 'RobotoMono.tar.xz']
+}
 
 
 files.directory(
@@ -25,8 +29,8 @@ files.directory(
 )
 
 
-for font_name in ['Hack.tar.xz', 'RobotoMono.tar.xz']:
-    font = utils.NerdFont(font_name, 'v3.2.1')
+for font_name in NERD_FONTS['fonts']:
+    font = utils.NerdFont(font_name, NERD_FONTS['version'])
     font_file = f'{FONTS_ARCHIVES_DIR}/{font.basename}'
     fonts_downloaded = files.download(
         name=f'Download font {font_name}',
