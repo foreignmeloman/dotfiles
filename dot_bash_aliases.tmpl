@@ -18,7 +18,12 @@ PATH="${PATH}:/usr/sbin"
 # {{- end }}
 
 # {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
-# {{- $registerPythonArgcomplete = "register-python-argcomplete3"}}
+# {{-   $majorVersion := atoi (split "." .chezmoi.osRelease.versionID)._0 }}
+# {{-   if ge $majorVersion 24 }}
+# {{-     $registerPythonArgcomplete = "register-python-argcomplete"}}
+# {{-   else}}
+# {{-     $registerPythonArgcomplete = "register-python-argcomplete3"}}
+# {{-   end }}
 # {{- end }}
 
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
