@@ -7,5 +7,6 @@ set -e
 # pyinfra/deploy.py hash: {{ include "pyinfra/deploy.py" | sha256sum }}
 # pyinfra/utils.py hash: {{ include "pyinfra/utils.py" | sha256sum }}
 
+export PATH="${PATH}:${HOME}/.local/bin"
 pipx install pyinfra
 pyinfra inventory.py deploy.py -yv --chdir {{ .chezmoi.sourceDir }}/pyinfra
