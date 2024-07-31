@@ -1,7 +1,6 @@
 {
 	"files.associations": {
-		"dot_bash_aliases.tmpl": "shellscript",
-		"run_once_before_init.sh.tmpl": "shellscript",
-		"run_onchange_pyinfra.sh.tmpl": "shellscript",
+		"dot_bash*": "shellscript",
+		"*.sh.tmpl": "shellscript",
 	}
 }
