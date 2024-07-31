@@ -1,33 +1,38 @@
 # dotfiles
 
-This repo uses [chezmoi](https://github.com/twpayne/chezmoi) to manage my dotfiles. Use [this](https://www.chezmoi.io/quick-start/#set-up-a-new-machine-with-a-single-command) gude to setup a new machine.
+This repo uses unnecessarily overengineered combination of [chezmoi](https://github.com/twpayne/chezmoi) and [pyinfra](https://pyinfra.com/) to manage my dotfiles and system setup.
 
 ### Requirements
 
 Tested on:
 * openSUSE Tumbleweed
 * Ubuntu 22.04
+* Ubuntu 24.04
 
 ### Quick bootstrap
 
-Install chezmoi on Ubuntu:
-```bash
-BINDIR=$HOME/.local/bin sh -c "$(curl -fsLS get.chezmoi.io)"
-```
+Install chezmoi on:
 
-Install chezmoi on Tumbleweed:
-```bash
-sudo zypper in -y chezmoi
-```
+* Tumbleweed:
+    ```bash
+    sudo zypper in -y chezmoi
+    ```
 
-Init command for the repo owner:
+* Ubuntu:
+    ```bash
+    BINDIR="${HOME}/.local/bin" sh -c "$(curl -fsLS get.chezmoi.io)"
+    ```
+---
+Init command for:
 
-```bash
-chezmoi init --apply git@github.com:foreignmeloman/dotfiles.git
-```
+* the repo owner:
+    ```bash
+    export PATH="${PATH}:${HOME}/.local/bin"
+    chezmoi init --apply git@github.com:foreignmeloman/dotfiles.git
+    ```
 
-Init command for the guests:
-
-```bash
-chezmoi init --apply foreignmeloman
-```
+* the guests:
+    ```bash
+    export PATH="${PATH}:${HOME}/.local/bin"
+    chezmoi init --apply foreignmeloman
+    ```
