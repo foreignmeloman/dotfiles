@@ -1,3 +1,6 @@
+import glob
+import os
+
 from pyinfra import host
 from pyinfra.facts.server import LinuxName, Home, KernelVersion
 from pyinfra.operations import apt, zypper, files, python, systemd
@@ -47,13 +50,14 @@ for font_name in NERD_FONTS['fonts']:
         exclude=['LICENSE.*', 'README.md'],
     )
 
-
-files.put(
-    name='Add bash completion for terraform',
-    src='files/bash_completion/terraform.sh',
-    dest=f'{HOME_DIR}/.local/share/bash_completion.d/terraform.sh',
-    create_remote_dir=True,
-)
+for completion in glob.glob('files/bash_completion/*'):
+    base_name = os.path.basename(completion)
+    files.put(
+        name=f'Add bash completion for {base_name}',
+        src=completion,
+        dest=f'{HOME_DIR}/.local/share/bash_completion.d/{base_name}',
+        create_remote_dir=True,
+    )
 
 
 if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
