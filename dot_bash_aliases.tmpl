@@ -70,7 +70,9 @@ if [ ! -z "$(command -v nvim)" ]; then
   export EDITOR='nvim'
 fi
 if [ ! -z "$(command -v terraform)" ]; then
-  alias tf='terraform'
+  function tf {
+    terraform "$@"
+  }
 fi
 
 
