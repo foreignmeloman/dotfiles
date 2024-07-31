@@ -17,6 +17,7 @@ set -g copy-command 'xclip -sel clip'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
 set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
+bind-key -n c-g send-prefix  # Send prefix to the nested tmux session
 
 # Colors
 # Theme 1
@@ -37,3 +38,6 @@ bind '"' split-window -v -c "#{pane_current_path}"
 bind  @  choose-window 'join-pane -h -s "%%"'
 bind '#' choose-window 'join-pane -s "%%"'
 
+
+# Aliases
+set -s command-alias[100] 'reload-config=source ~/.config/tmux/tmux.conf'
