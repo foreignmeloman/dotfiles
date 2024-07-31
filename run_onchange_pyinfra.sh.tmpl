@@ -2,7 +2,7 @@
 # vim: syntax=bash:
 set -e
 
-{{ output "find" "pyinfra/" "-type" "f" "-exec" "sha256sum" "{}" "+" | comment "# " }}
+{{ output "find" (print .chezmoi.sourceDir "/pyinfra/") "-type" "f" "-exec" "sha256sum" "{}" "+" | comment "# " }}
 
 export PATH="${PATH}:${HOME}/.local/bin"
 pipx install pyinfra

@@ -34,7 +34,7 @@ files.directory(
 
 for font_name in NERD_FONTS['fonts']:
     font = utils.NerdFont(font_name, NERD_FONTS['version'])
-    font_file = f'{FONTS_ARCHIVES_DIR}/{font.basename}'
+    font_file = f'{FONTS_ARCHIVES_DIR}/{font_name}'
     fonts_downloaded = files.download(
         name=f'Download font {font_name}',
         src=font.url,

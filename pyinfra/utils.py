@@ -57,7 +57,3 @@ class NerdFont:
     @property
     def url(self) -> str:
         return f'{self.BASE_URL}/{self.__version}/{self.__name}'
-
-    @property
-    def basename(self) -> str:
-        return self.__name
