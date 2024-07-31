@@ -99,7 +99,7 @@ complete -o nospace -F complete_retmux retmux
 # tmux END
 
 # Terraform
-_tf_path="$(which terraform)"
+_tf_path="$(which terraform 2> /dev/null)"
 if [ ! -z "${_tf_path}" ]; then
   alias tf='terraform'
   complete -C "${_tf_path}" terraform
@@ -109,13 +109,13 @@ unset _tf_path
 # Terraform END
 
 # yq
-if [ ! -z "$(which yq)" ]; then
+if [ ! -z "$(which yq 2> /dev/null)" ]; then
   source <(yq shell-completion bash)
 fi
 # yq END
 
 # kubectl
-if [ ! -z "$(which kubectl)" ]; then
+if [ ! -z "$(which kubectl 2> /dev/null)" ]; then
   source <(kubectl completion bash)
   alias k=kubectl
   complete -o default -F __start_kubectl k
@@ -123,7 +123,7 @@ fi
 # kubectl END
 
 # helm
-if [ ! -z "$(which helm)" ]; then
+if [ ! -z "$(which helm 2> /dev/null)" ]; then
   source <(helm completion bash 2> /dev/null)
   function hupgrade {
     local chart_dir=$(readlink -f $1)
@@ -137,13 +137,13 @@ fi
 # helm END
 
 # cezmoi
-if [ ! -z "$(which chezmoi)" ]; then
+if [ ! -z "$(which chezmoi 2> /dev/null)" ]; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
 
 # ruff
-if [ ! -z "$(which ruff)" ]; then
+if [ ! -z "$(which ruff 2> /dev/null)" ]; then
   source <(ruff generate-shell-completion bash)
 fi
 # ruff END
