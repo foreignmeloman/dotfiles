@@ -69,6 +69,9 @@ if [ ! -z "$(command -v nvim)" ]; then
   alias vim='nvim'
   export EDITOR='nvim'
 fi
+if [ ! -z "$(command -v terraform)" ]; then
+  alias tf='terraform'
+fi
 
 
 # Functions #####################################
@@ -124,16 +127,6 @@ function complete_retmux {
 }
 complete -o nospace -F complete_retmux retmux
 # tmux END
-
-# Terraform #####################################
-_tf_path="$(command -v terraform)"
-if [ ! -z "${_tf_path}" ]; then
-  alias tf='terraform'
-  complete -C "${_tf_path}" terraform
-  complete -C "${_tf_path}" tf
-fi
-unset _tf_path
-# Terraform END
 
 # yq ############################################
 if [ ! -z "$(command -v yq)" ]; then

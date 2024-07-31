@@ -2,10 +2,7 @@
 # vim: syntax=bash:
 set -e
 
-# pyinfra/files/default-route-metric.conf hash: {{ include "pyinfra/files/default-route-metric.conf" | sha256sum }}
-# pyinfra/inventory.py hash: {{ include "pyinfra/inventory.py" | sha256sum }}
-# pyinfra/deploy.py hash: {{ include "pyinfra/deploy.py" | sha256sum }}
-# pyinfra/utils.py hash: {{ include "pyinfra/utils.py" | sha256sum }}
+{{ output "find" "pyinfra/" "-type" "f" "-exec" "sha256sum" "{}" "+" | comment "# " }}
 
 export PATH="${PATH}:${HOME}/.local/bin"
 pipx install pyinfra

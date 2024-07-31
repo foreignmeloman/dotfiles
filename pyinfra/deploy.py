@@ -13,8 +13,11 @@ if host.get_fact(KernelVersion).count('microsoft') == 0:
         enabled=True,
     )
 
-FONTS_DIR = f'{host.get_fact(Home)}/.local/share/fonts'
+
+HOME_DIR = host.get_fact(Home)
+FONTS_DIR = f'{HOME_DIR}/.local/share/fonts'
 FONTS_ARCHIVES_DIR = f'{FONTS_DIR}/archives'
+
 
 files.directory(
     name='Create font archives directory',
@@ -39,6 +42,14 @@ for font_name in ['Hack.tar.xz', 'RobotoMono.tar.xz']:
         dest=FONTS_DIR,
         exclude=['LICENSE.*', 'README.md'],
     )
+
+
+files.put(
+    name='Add bash completion for terraform',
+    src='files/bash_completion/terraform.sh',
+    dest=f'{HOME_DIR}/.local/share/bash_completion.d/terraform.sh',
+    create_remote_dir=True,
+)
 
 
 if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':

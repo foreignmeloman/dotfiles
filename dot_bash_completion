@@ -1,0 +1,7 @@
+# vim: syntax=bash:
+
+if test -d ~/.local/share/bash_completion.d; then
+  for bcfile in ~/.local/share/bash_completion.d/*; do
+    . $bcfile
+  done
+fi
