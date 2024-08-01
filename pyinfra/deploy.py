@@ -80,7 +80,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
     )
 
     files.line(
-        name='Use .bash_aliases',
+        name='Use .bash_aliases instead of .alias',
         path=f'{host.get_fact(Home)}/.bashrc',
         line=r'test -s ~/.alias && . ~/.alias || true',
         replace=r'test -s ~/.bash_aliases && . ~/.bash_aliases || true',
@@ -95,6 +95,7 @@ if host.get_fact(LinuxName) == 'Ubuntu':
             'gdu',
             'git',
             'tmux',
+            'unzip',
         ],
         _sudo=True,
     )
