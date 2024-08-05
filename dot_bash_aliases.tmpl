@@ -158,3 +158,9 @@ if [ ! -z "$(command -v pipx)" ]; then
   source <({{ $registerPythonArgcomplete }} pipx)
 fi
 # pipx END
+
+# aws ###########################################
+if [ ! -z "$(command -v aws)" ] && [ ! -z "$(command -v aws_completer)" ]; then
+  complete -C aws_completer aws
+fi
+# aws END
