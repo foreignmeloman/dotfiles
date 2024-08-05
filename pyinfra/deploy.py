@@ -71,6 +71,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
             'gping',
             'helm',
             'k9s',
+            'keepassxc',
             'lf',
             'mtr',
             'timg',
