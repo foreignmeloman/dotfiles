@@ -8,6 +8,8 @@
 # Disable crtl-s ctrl-q
 stty -ixon
 
+test -s ~/.bash_aliases_work && . ~/.bash_aliases_work || true
+
 # Environment Variables #########################
 
 # {{- $registerPythonArgcomplete := ""}} {{- $winUserName := "" }}
