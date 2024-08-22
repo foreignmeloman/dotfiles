@@ -166,3 +166,16 @@ if [ ! -z "$(command -v aws)" ] && [ ! -z "$(command -v aws_completer)" ]; then
   complete -C aws_completer aws
 fi
 # aws END
+
+# yazi ##########################################
+if [ ! -z "$(command -v yazi)" ]; then
+  function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+  }
+fi
+# yazi END

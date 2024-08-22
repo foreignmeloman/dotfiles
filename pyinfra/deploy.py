@@ -22,7 +22,7 @@ FONTS_DIR = f'{HOME_DIR}/.local/share/fonts'
 FONTS_ARCHIVES_DIR = f'{FONTS_DIR}/archives'
 NERD_FONTS = {
     'version': 'v3.2.1',
-    'fonts': ['Hack.tar.xz', 'RobotoMono.tar.xz']
+    'fonts': ['Hack.tar.xz', 'RobotoMono.tar.xz'],
 }
 
 
