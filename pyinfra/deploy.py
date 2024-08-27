@@ -7,8 +7,15 @@ from pyinfra.operations import apt, zypper, files, python, systemd
 
 import utils
 
+HOME_DIR = host.get_fact(Home)
 
 if host.get_fact(KernelVersion).count('microsoft') == 0:
+    files.put(
+        name='Add ssh-agent user service',
+        src='files/systemd/ssh-agent.service',
+        dest=f'{HOME_DIR}/.config/systemd/user/ssh-agent.service',
+        create_remote_dir=True,
+    )
     systemd.service(
         name='Enable ssh-agent user service',
         service='ssh-agent.service',
@@ -17,7 +24,6 @@ if host.get_fact(KernelVersion).count('microsoft') == 0:
     )
 
 
-HOME_DIR = host.get_fact(Home)
 FONTS_DIR = f'{HOME_DIR}/.local/share/fonts'
 FONTS_ARCHIVES_DIR = f'{FONTS_DIR}/archives'
 NERD_FONTS = {
