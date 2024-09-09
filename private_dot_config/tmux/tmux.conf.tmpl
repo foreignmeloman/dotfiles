@@ -17,7 +17,7 @@ set -g copy-command 'xclip -sel clip'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
 set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
-bind-key -n c-g send-prefix  # Send prefix to the nested tmux session
+bind-key -n c-f send-prefix  # Send prefix to the nested tmux session
 
 # yazi image preview
 set -g allow-passthrough on
