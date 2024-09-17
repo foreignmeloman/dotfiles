@@ -59,10 +59,20 @@ for font_name in NERD_FONTS['fonts']:
 for completion in glob.glob('files/bash_completion/*'):
     base_name = os.path.basename(completion)
     files.put(
-        name=f'Add bash completion for {base_name}',
+        name=f'Add bash completion {base_name}',
         src=completion,
         dest=f'{HOME_DIR}/.local/share/bash_completion.d/{base_name}',
         create_remote_dir=True,
+    )
+
+for script in glob.glob('files/scripts/*'):
+    base_name = os.path.basename(script)
+    files.put(
+        name=f'Add custom script {base_name}',
+        src=script,
+        dest=f'{HOME_DIR}/.local/bin/{base_name}',
+        create_remote_dir=True,
+        mode='755',
     )
 
 
