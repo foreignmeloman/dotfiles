@@ -9,3 +9,6 @@ sudo zypper --non-interactive install -y python3-pipx
 # {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
 sudo apt-get update && sudo apt-get install -y pipx
 # {{- end }}
+
+export PATH="${PATH}:${HOME}/.local/bin"
+pipx upgrade --install pyinfra

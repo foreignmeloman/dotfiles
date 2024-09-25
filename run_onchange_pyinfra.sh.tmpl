@@ -5,5 +5,4 @@ set -e
 {{ output "find" (print .chezmoi.sourceDir "/pyinfra/") "-type" "f" "-exec" "sha256sum" "{}" "+" | comment "# " }}
 
 export PATH="${PATH}:${HOME}/.local/bin"
-pipx install pyinfra
 pyinfra inventory.py deploy.py -yv --chdir {{ .chezmoi.sourceDir }}/pyinfra
