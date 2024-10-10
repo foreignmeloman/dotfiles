@@ -1,7 +1,7 @@
 import glob
 import os
 
-from pyinfra import host
+from pyinfra.context import host
 from pyinfra.facts.server import LinuxName, Home, KernelVersion
 from pyinfra.operations import apt, zypper, files, python, systemd
 

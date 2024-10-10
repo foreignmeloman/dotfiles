@@ -4,10 +4,7 @@ import tarfile
 import urllib.request
 
 
-def _exclude_tarfile_members(
-    tar_archive: tarfile.TarFile = None,
-    exclude: list = None,
-):
+def _exclude_tarfile_members(tar_archive: tarfile.TarFile, exclude: list):
     excluded_members = [
         f for e in exclude for f in fnmatch.filter(tar_archive.getnames(), e)
     ]
@@ -16,7 +13,7 @@ def _exclude_tarfile_members(
             yield tarinfo
 
 
-def extract_tarfile(file: str, dest: str, exclude: list = None):
+def extract_tarfile(file: str, dest: str, exclude: list):
     if tarfile.is_tarfile(file):
         with tarfile.open(file) as fh:
             fh.extractall(
