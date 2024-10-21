@@ -19,12 +19,6 @@ unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selectio
 set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
 bind-key -n c-f send-prefix  # Send prefix to the nested tmux session
 
-# yazi image preview
-set -g allow-passthrough on
-set -ga update-environment TERM
-set -ga update-environment TERM_PROGRAM
-# yazi image preview END
-
 # Colors
 # Theme 1
 set -g status-fg colour51
