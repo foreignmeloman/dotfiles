@@ -107,7 +107,7 @@ _ssh_agent_wsl_proxy $SSH_AUTH_SOCK
 
 # tmux ##########################################
 if ! [ "${TERM_PROGRAM}" == 'vscode' ] && [ -z "${TMUX}" ]; then
-  if tmux ls 2> /dev/null | grep -qP "^main:"; then
+  if tmux has-session -t "main" 2> /dev/null; then
     tmux a -t main
   else
     cd
