@@ -126,3 +126,13 @@ files.put(
     dest='/etc/NetworkManager/conf.d/',
     _sudo=True,
 )
+
+files.block(
+    name='Adjust system buffer size to 1% of total memory',
+    path='/etc/sysctl.conf',
+    content="""
+vm.dirty_bytes = 200000000
+vm.dirty_background_bytes = 100000000
+""",
+    _sudo=True,
+)
