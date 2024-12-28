@@ -180,7 +180,7 @@
             "domain": "git.parent.onetick.com",
         }
     ],
-    "gitlens.ai.experimental.generateCommitMessage.enabled": false,
+
     //Git END
     // python
     "python.analysis.autoImportCompletions": false,
@@ -211,9 +211,7 @@
     },
     "remote.SSH.lockfilesInTmp": true,
     // remote END
-    // C/C++
-    "C_Cpp.intelliSenseCacheSize": 100,
-    // C/C++ END
+
     // Terminal
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.fontFamily": "Hack",
