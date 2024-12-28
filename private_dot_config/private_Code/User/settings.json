@@ -1,0 +1,242 @@
+{
+    // editor
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.wordWrap": "off",
+    "editor.fontFamily": "Hack",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.highlightActiveBracketPair": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.guides.bracketPairsHorizontal": "active",
+    "editor.columnSelection": false,
+    "editor.cursorSurroundingLines": 3,
+    "editor.insertSpaces": false,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "editor.tabSize": 4,
+    "editor.minimap.maxColumn": 100,
+    "editor.wordWrap": "on",
+    "editor.wrappingIndent": "indent",
+    "editor.suggestSelection": "first",
+    "editor.selectionClipboard": false,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "keyword.control.flow.python",
+                    "keyword.control.import.python",
+                ],
+                "settings": {
+                    "fontStyle": ""
+                }
+            }
+        ]
+    },
+    "files.associations": {
+        "Dockerfile*": "dockerfile",
+        "Jenkinsfile*": "groovy",
+        "**/tasks/*.yml": "ansible",
+        "**/tasks/*.yaml": "ansible",
+        "*-playbook.yml": "ansible",
+        "*-playbook.yaml": "ansible",
+        "_helpers.tpl": "helm",
+        "*.tftpl": "terraform",
+        "*.toml": "properties",
+        "*.tfstate.backup": "json"
+    },
+    "files.autoSave": "afterDelay",
+    "files.eol": "\n",
+    "files.exclude": {
+        "**/.git": false,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": false,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "files.insertFinalNewline": true,
+    "problems.showCurrentInStatus": true,
+    "security.workspace.trust.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "workbench.colorCustomizations": {
+        "tab.activeBorderTop": "#21A0E0",
+        "tab.activeBorder": "#21A0E0",
+        "editorGutter.addedBackground": "#587C0C",
+        "editorGutter.deletedBackground": "#94151B",
+        "editorGutter.modifiedBackground": "#0C7D9D",
+        "minimapGutter.addedBackground": "#587C0C",
+        "minimapGutter.deletedBackground": "#94151B",
+        "minimapGutter.modifiedBackground": "#0C7D9D",
+        "[One Dark Pro Darker]": {
+            "diffEditor.insertedLineBackground": "#0c4b9d6b",
+            "diffEditor.insertedTextBackground": "#0c4b9daf",
+            "terminal.selectionBackground": "#00ac8688",
+        },
+        "[One Dark Pro]": {
+            "diffEditor.insertedLineBackground": "#0c4b9d6b",
+            "diffEditor.insertedTextBackground": "#0c4b9daf",
+            "terminal.selectionBackground": "#00ac8688",
+        },
+    },
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.wrapTabs": true,
+    "workbench.startupEditor": "none",
+    "workbench.settings.editor": "json",
+    // "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.useSplitJSON": false,
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "One Dark Pro",
+    "workbench.preferredLightColorTheme": "Atom One Light",
+    "window.titleBarStyle": "custom",
+    // editor END
+    // Ansible
+    "ansible.validation.lint.arguments": "",
+    // Docker
+    "[dockerfile]": {
+        "editor.parameterHints.enabled": false,
+    },
+    // Docker END
+    // Shell
+    "[shellscript]": {
+        "editor.bracketPairColorization.enabled": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+    },
+    // Shell END
+    "[groovy]": {
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+    },
+    // yaml
+    "redhat.telemetry.enabled": false,
+    "yaml.format.enable": false,
+    "[yaml]": {
+        "editor.stickyScroll.enabled": true
+    },
+    "[helm]": {
+        "editor.bracketPairColorization.enabled": false,
+        "editor.guides.bracketPairs": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+    },
+    "[dockercompose]": {
+        "editor.autoIndent": "keep",
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    },
+    // yaml END
+    // Terraform
+    "terraform.experimentalFeatures.validateOnSave": true,
+    "[terraform]": {
+        "editor.defaultFormatter": "hashicorp.terraform",
+        "editor.formatOnSave": true,
+        "editor.formatOnSaveMode": "file",
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.suggest.preview": true
+    },
+    "[terraform-vars]": {
+        "editor.defaultFormatter": "hashicorp.terraform",
+        "editor.formatOnSave": true,
+        "editor.formatOnSaveMode": "file",
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
+    // Terraform END
+    //Git
+    "git.autofetch": true,
+    "git.pruneOnFetch": true,
+    "git.enableSmartCommit": true,
+    "git.smartCommitChanges": "tracked",
+    "git.mergeEditor": false,
+    "git-graph.referenceLabels.alignment": "Branches (on the left) & Tags (on the right)",
+    "git-graph.repository.fetchAndPrune": true,
+    "gitlens.codeLens.enabled": false,
+    "gitlens.views.commits.files.layout": "tree",
+    "gitlens.views.stashes.files.layout": "tree",
+    "gitlens.views.tags.files.layout": "tree",
+    "gitlens.gitCommands.skipConfirmations": [
+        "fetch:command",
+        "stash-push:command",
+        "switch:command",
+        "tag-create:command"
+    ],
+    "gitlens.plusFeatures.enabled": false,
+    "gitlens.views.searchAndCompare.files.layout": "tree",
+    "gitlens.integrations.enabled": true,
+    "gitlens.remotes": [
+        {
+            "type": "GitLab",
+            "name": "Parent",
+            "domain": "git.parent.onetick.com",
+        }
+    ],
+    "gitlens.ai.experimental.generateCommitMessage.enabled": false,
+    //Git END
+    // python
+    "python.analysis.autoImportCompletions": false,
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.typeCheckingMode": "standard",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.bracketPairColorization.enabled": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.rulers": [
+            80,
+            100
+        ]
+    },
+    "ruff.nativeServer": true,
+    // python END
+    // remote
+    "remote.SSH.defaultExtensions": [
+        "python"
+    ],
+    "remote.SSH.remotePlatform": {
+        "mac-builder": "macOS",
+        "mac-aws-mobeus-m1": "macOS",
+        "foreignmeloman.strangled.net": "linux"
+    },
+    "remote.SSH.lockfilesInTmp": true,
+    // remote END
+    // C/C++
+    "C_Cpp.intelliSenseCacheSize": 100,
+    // C/C++ END
+    // Terminal
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.fontFamily": "Hack",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.localEchoLatencyThreshold": -1,
+    "terminal.integrated.tabs.enabled": false,
+    "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.enableImages": true,
+    "update.showReleaseNotes": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "errorLens.enabledDiagnosticLevels": [
+        "warning",
+        "error"
+    ],
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "projectManager.git.baseFolders": [
+        "~/projects"
+    ],
+    "workbench.editor.empty.hint": "hidden",
+    "git.confirmSync": false,
+    "editor.minimap.showSlider": "always",
+    "extensions.ignoreRecommendations": true,
+    "explorer.confirmDragAndDrop": false,
+    "gitlens.views.commitDetails.files.layout": "tree",
+    "chat.commandCenter.enabled": false
+}
