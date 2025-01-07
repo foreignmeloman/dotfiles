@@ -84,10 +84,6 @@ function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
 function _code_wayland {
-  local last_arg="${@: -1}"
-  if test -d "$last_arg"; then
-    export PYTHONPATH=$(readlink -f $last_arg)
-  fi
   /usr/bin/code --ozone-platform=wayland "$@"
 }
 

@@ -180,13 +180,13 @@
             "domain": "git.parent.onetick.com",
         }
     ],
-
     //Git END
     // python
     "python.analysis.autoImportCompletions": false,
     "python.languageServer": "Pylance",
     "python.analysis.completeFunctionParens": true,
     "python.analysis.typeCheckingMode": "standard",
+    "python.analysis.extraPaths": ["./"],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
@@ -211,7 +211,6 @@
     },
     "remote.SSH.lockfilesInTmp": true,
     // remote END
-
     // Terminal
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.fontFamily": "Hack",
@@ -236,5 +235,7 @@
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "gitlens.views.commitDetails.files.layout": "tree",
-    "chat.commandCenter.enabled": false
+    "chat.commandCenter.enabled": false,
+    "gitlens.graph.minimap.dataType": "lines",
+    "gitlens.graph.minimap.enabled": false
 }
