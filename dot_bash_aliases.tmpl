@@ -68,10 +68,6 @@ alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 # {{- else }}
 alias clip='xclip -sel clip'
 # {{- end }}
-if [ ! -z "$(command -v nvim)" ]; then
-  alias vim='nvim'
-  export EDITOR='nvim'
-fi
 if [ ! -z "$(command -v terraform)" ]; then
   function tf {
     terraform "$@"
