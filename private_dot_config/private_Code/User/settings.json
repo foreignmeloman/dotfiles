@@ -213,7 +213,7 @@
     // remote END
     // Terminal
     "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.fontFamily": "Hack",
+    "terminal.integrated.fontFamily": "Hack Nerd Font",
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.localEchoLatencyThreshold": -1,
     "terminal.integrated.tabs.enabled": false,
