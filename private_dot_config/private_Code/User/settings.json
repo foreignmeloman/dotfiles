@@ -115,9 +115,6 @@
     // yaml
     "redhat.telemetry.enabled": false,
     "yaml.format.enable": false,
-    "[yaml]": {
-        "editor.stickyScroll.enabled": true
-    },
     "[helm]": {
         "editor.bracketPairColorization.enabled": false,
         "editor.guides.bracketPairs": false,
@@ -199,7 +196,6 @@
             100
         ]
     },
-    "ruff.nativeServer": true,
     // python END
     // remote
     "remote.SSH.defaultExtensions": [
