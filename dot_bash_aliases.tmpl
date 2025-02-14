@@ -153,6 +153,12 @@ if [ ! -z "$(command -v ruff)" ]; then
 fi
 # ruff END
 
+# uv ##########################################
+if [ ! -z "$(command -v uv)" ]; then
+  source <(uv generate-shell-completion bash)
+fi
+# uv END
+
 # pipx ##########################################
 if [ ! -z "$(command -v pipx)" ]; then
   source <({{ $registerPythonArgcomplete }} pipx)

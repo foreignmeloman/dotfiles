@@ -58,6 +58,7 @@
         "**/.factorypath": true
     },
     "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
     "problems.showCurrentInStatus": true,
     "security.workspace.trust.enabled": false,
     "telemetry.telemetryLevel": "off",
