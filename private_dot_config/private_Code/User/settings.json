@@ -2,7 +2,7 @@
     // editor
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.wordWrap": "off",
-    "editor.fontFamily": "Hack",
+    "editor.fontFamily": "Hack Nerd Font",
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.highlightActiveBracketPair": true,
     "editor.guides.bracketPairs": "active",
