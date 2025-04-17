@@ -40,7 +40,6 @@
         "*-playbook.yml": "ansible",
         "*-playbook.yaml": "ansible",
         "_helpers.tpl": "helm",
-        "*.tftpl": "terraform",
         "*.toml": "properties",
         "*.tfstate.backup": "json"
     },
