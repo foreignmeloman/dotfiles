@@ -41,7 +41,8 @@
         "*-playbook.yaml": "ansible",
         "_helpers.tpl": "helm",
         "*.toml": "properties",
-        "*.tfstate.backup": "json"
+        "*.tfstate.backup": "json",
+        ".terraformrc": "hcl",
     },
     "files.autoSave": "afterDelay",
     "files.eol": "\n",

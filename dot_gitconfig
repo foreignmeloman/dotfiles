@@ -4,3 +4,5 @@
 	path = ~/.config/git/personal.gitconfig
 [includeIf "gitdir:~/obsidian/**"]
 	path = ~/.config/git/personal.gitconfig
+[includeIf "gitdir:~/.local/share/chezmoi/**"]
+	path = ~/.config/git/personal.gitconfig
