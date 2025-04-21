@@ -133,6 +133,7 @@
     },
     // yaml END
     // Terraform
+    "terraform.codelens.referenceCount": true,
     "terraform.experimentalFeatures.validateOnSave": true,
     "[terraform]": {
         "editor.defaultFormatter": "hashicorp.terraform",
