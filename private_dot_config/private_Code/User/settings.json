@@ -158,11 +158,27 @@
     "git.enableSmartCommit": true,
     "git.smartCommitChanges": "tracked",
     "git.mergeEditor": false,
+    "git.confirmSync": false,
     "git-graph.referenceLabels.alignment": "Branches (on the left) & Tags (on the right)",
     "git-graph.repository.fetchAndPrune": true,
     "gitlens.codeLens.enabled": false,
+    "gitlens.graph.minimap.dataType": "lines",
+    "gitlens.graph.minimap.enabled": false,
     "gitlens.views.commits.files.layout": "tree",
+    "gitlens.views.commitDetails.files.layout": "tree",
     "gitlens.views.stashes.files.layout": "tree",
+    "gitlens.views.scm.grouped.views": {
+        "commits": true,
+        "branches": true,
+        "remotes": true,
+        "stashes": true,
+        "tags": true,
+        "worktrees": true,
+        "contributors": true,
+        "repositories": false,
+        "searchAndCompare": true,
+        "launchpad": false
+    },
     "gitlens.views.tags.files.layout": "tree",
     "gitlens.gitCommands.skipConfirmations": [
         "fetch:command",
@@ -229,12 +245,8 @@
         "~/projects"
     ],
     "workbench.editor.empty.hint": "hidden",
-    "git.confirmSync": false,
     "editor.minimap.showSlider": "always",
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
-    "gitlens.views.commitDetails.files.layout": "tree",
     "chat.commandCenter.enabled": false,
-    "gitlens.graph.minimap.dataType": "lines",
-    "gitlens.graph.minimap.enabled": false
 }
