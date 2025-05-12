@@ -14,7 +14,7 @@
     "editor.renderControlCharacters": true,
     "editor.tabSize": 4,
     "editor.minimap.maxColumn": 100,
-    "editor.wordWrap": "on",
+    "editor.wordWrap": "off",
     "editor.wrappingIndent": "indent",
     "editor.suggestSelection": "first",
     "editor.selectionClipboard": false,
