@@ -172,14 +172,21 @@ fi
 # aws END
 
 # yazi ##########################################
-if [ ! -z "$(command -v yazi)" ]; then
-  function yy() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-    yazi "$@" --cwd-file="$tmp"
-    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-      builtin cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
-  }
-fi
+# if [ ! -z "$(command -v yazi)" ]; then
+#   function yy() {
+#     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+#     yazi "$@" --cwd-file="$tmp"
+#     if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+#       builtin cd -- "$cwd"
+#     fi
+#     rm -f -- "$tmp"
+#   }
+# fi
 # yazi END
+
+# terragrunt ####################################
+_tg_binary=$(command -v terragrunt)
+if [ ! -z "$_tg_binary" ]; then
+  complete -C $_tg_binary terragrunt
+fi
+# terragrunt END
