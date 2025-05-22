@@ -13,7 +13,9 @@
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
     "editor.tabSize": 4,
+    "editor.minimap.autohide": true,
     "editor.minimap.maxColumn": 100,
+    "editor.minimap.showSlider": "always",
     "editor.wordWrap": "off",
     "editor.wrappingIndent": "indent",
     "editor.suggestSelection": "first",
@@ -245,7 +247,6 @@
         "~/projects"
     ],
     "workbench.editor.empty.hint": "hidden",
-    "editor.minimap.showSlider": "always",
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "chat.commandCenter.enabled": false,

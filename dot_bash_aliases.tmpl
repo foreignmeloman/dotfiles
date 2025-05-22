@@ -190,3 +190,9 @@ if [ ! -z "$_tg_binary" ]; then
   complete -C $_tg_binary terragrunt
 fi
 # terragrunt END
+
+# tenv ##########################################
+if [ ! -z "$(command -v tenv)" ]; then
+  source <(tenv completion bash)
+fi
+# tenv END
