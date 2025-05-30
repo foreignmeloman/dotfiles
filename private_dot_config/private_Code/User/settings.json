@@ -204,7 +204,9 @@
     "python.languageServer": "Pylance",
     "python.analysis.completeFunctionParens": true,
     "python.analysis.typeCheckingMode": "standard",
-    "python.analysis.extraPaths": ["./"],
+    "python.analysis.extraPaths": [
+        "./"
+    ],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
@@ -250,7 +252,14 @@
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "chat.commandCenter.enabled": false,
+    "cSpell.enabledFileTypes": {
+        "*": false,
+        "markdown": true
+    },
     "cSpell.userWords": [
+        "gruntwork",
+        "karpenter",
+        "terragrunt",
         "tfstate",
         "tfvars"
     ],
