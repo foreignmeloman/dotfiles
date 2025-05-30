@@ -250,4 +250,8 @@
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "chat.commandCenter.enabled": false,
+    "cSpell.userWords": [
+        "tfstate",
+        "tfvars"
+    ],
 }
