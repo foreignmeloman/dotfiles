@@ -29,8 +29,8 @@ _terragrunt_completion() {
     case "${words[1]}" in
         run)
             # Suggest run subcommands or run-specific flags
-            if [[ $cword -eq 3 && "$run_flags" == *"${words[2]}"* ]]; then
-                COMPREPLY=($(compgen -W "$run_subcommands" -- "$cur"))
+            if [[ $cword -ge 3 && "$run_flags" == *"${prev}"* ]]; then
+                COMPREPLY=($(compgen -W "$run_flags $run_subcommands" -- "$cur"))
             # Handle flags that take values
             elif [[ $cword -eq 3 && "${words[2]}" == "--log-level" ]]; then
                 COMPREPLY=($(compgen -W "$log_levels" -- "$cur"))
