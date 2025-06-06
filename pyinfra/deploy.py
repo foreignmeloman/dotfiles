@@ -90,6 +90,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
             'keepassxc',
             'lf',
             'mtr',
+            'ShellCheck',
             'timg',
             'tmux',
             'yq',
@@ -98,7 +99,7 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
     )
 
     files.line(
-        name='Use .bash_aliases instead of .alias',
+        name='Use .bash_aliases instead of .alias',  # type: ignore
         path=f'{host.get_fact(Home)}/.bashrc',
         line=r'test -s ~/.alias && . ~/.alias || true',
         replace=r'test -s ~/.bash_aliases && . ~/.bash_aliases || true',
@@ -113,6 +114,7 @@ if host.get_fact(LinuxName) == 'Ubuntu':
             'gdu',
             'git',
             'mtr',
+            'shellcheck',
             'tmux',
             'unzip',
         ],

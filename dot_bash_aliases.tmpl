@@ -161,6 +161,7 @@ fi
 
 # pipx ##########################################
 if [ ! -z "$(command -v pipx)" ]; then
+  # shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1083 # Go templates
   source <({{ $registerPythonArgcomplete }} pipx)
 fi
 # pipx END
@@ -183,13 +184,6 @@ fi
 #   }
 # fi
 # yazi END
-
-# terragrunt ####################################
-_tg_binary=$(command -v terragrunt)
-if [ ! -z "$_tg_binary" ]; then
-  complete -C $_tg_binary terragrunt
-fi
-# terragrunt END
 
 # tenv ##########################################
 if [ ! -z "$(command -v tenv)" ]; then
