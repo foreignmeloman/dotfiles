@@ -85,6 +85,8 @@
         },
     },
     "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 8,
     "workbench.editor.pinnedTabSizing": "compact",
     "workbench.editor.wrapTabs": true,
     "workbench.startupEditor": "none",
