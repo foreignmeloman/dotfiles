@@ -15,6 +15,7 @@ _terragrunt_completion() {
     local run_flags=" --all -a --auth-provider-cmd --backend-bootstrap --backend-require-bootstrap --config --dependency-fetch-output-from-state --disable-bucket-update --disable-command-validation --download-dir --feature --graph --graph-root --iam-assume-role --iam-assume-role-duration --iam-assume-role-session-name --iam-assume-role-web-identity-token --inputs-debug --json-out-dir --no-auto-approve --no-auto-init --no-auto-retry --no-destroy-dependencies-check --no-stack-generate --out-dir --parallelism --provider-cache --provider-cache-dir --provider-cache-hostname --provider-cache-port --provider-cache-registry-names --provider-cache-token --queue-exclude-dir --queue-exclude-external --queue-excludes-file --queue-ignore-dag-order --queue-ignore-errors --queue-include-dir --queue-include-external --queue-include-units-reading --queue-strict-include --source --source-map --source-update --tf-forward-stdout --tf-path --units-that-include --use-partial-parse-config-cach"
     local hcl_fmt_flags="-a --all --check --diff --file --exclude-dir --stdin"
     local list_find_flags="--dag --dependencies --exclude --external --format --hidden --include --json -j --queue-construct-as --as"
+    local apply_flags="-auto-approve -backup -compact-warnings -destroy -lock -lock-timeout -input=true -no-color -parallelism -state -state-out -var -var-file"
 
     # Log levels for --log-level flag
     local log_levels="trace debug info warn error fatal panic stdout stderr"
@@ -76,6 +77,8 @@ _terragrunt_completion() {
             # Suggest global flags for other commands or when no specific handling
             if [[ "${words[cword-1]}" == "--log-level" ]]; then
                 COMPREPLY=($(compgen -W "$log_levels" -- "$cur"))
+            elif [[ "apply" == *"${prev}"* ]]; then
+                COMPREPLY=($(compgen -W "$apply_flags" -- "$cur"))
             elif [[ "${words[cword-1]}" == "--config" || "${words[cword-1]}" == "--working-dir" || "${words[cword-1]}" == "--cli-config-file" ]]; then
                 COMPREPLY=($(compgen -f -- "$cur"))
             else
