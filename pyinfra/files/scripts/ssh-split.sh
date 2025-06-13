@@ -16,6 +16,6 @@ base_index=$(tmux display -p '#{pane-base-index}')
 
 tmux new-window ssh "${ssh_list[0]}" ';' \
   "${split_list[@]}" \
-  rename-window $(basename $0) ';' \
-  select-pane -t ${base_index} ';' \
+  rename-window "$(basename $0)" ';' \
+  select-pane -t "${base_index}" ';' \
   set-option -w synchronize-panes
