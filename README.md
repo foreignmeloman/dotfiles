@@ -4,7 +4,7 @@ This repo uses unnecessarily overengineered combination of [chezmoi](https://git
 
 ### Requirements
 
-Tested on:
+Tested on (including WSL):
 * openSUSE Tumbleweed
 * Ubuntu 22.04
 * Ubuntu 24.04
