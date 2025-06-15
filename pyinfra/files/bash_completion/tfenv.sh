@@ -26,5 +26,5 @@ if [ ! -z "$(command -v tfenv)" ]; then
         ;;
     esac
   }
-    complete -F __complete_tfenv tfenv
+  complete -F __complete_tfenv tfenv
 fi

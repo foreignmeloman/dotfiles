@@ -1,18 +1,21 @@
 function retmux {
-  if [[ ${1} == '' ]]; then
-    tmux a -t $(tmux ls|head -1|awk -F':' '{print $1}')
+  if [[ $1 == '' ]]; then
+    tmux a -t "$(tmux ls -F '#{session_name}'|head -1)"
   else
-    tmux a -t ${1}
+    tmux a -t "$1"
   fi
 }
 
 function _complete_retmux {
-  tmux_sessions=$(tmux ls 2> /dev/null|awk -F':' '{print $1}')
-  options=()
-  if [[ ${1} == ${3} ]]; then
-    options=(${tmux_sessions[@]})
+  local cur prev words cword options
+  _get_comp_words_by_ref -n : cur prev words cword
+  options=("$(tmux ls -F '#{session_name}')")
+  if [[ "${options[*]}" == *"$prev"* ]]; then
+    COMPREPLY=(); return
   fi
-  COMPREPLY=($(compgen -W "${options[*]}" "${COMP_WORDS[${COMP_CWORD}]}"))
+  COMPREPLY=($(compgen -W "${options[@]}" -- "$cur"))
 }
 
-complete -o nospace -F _complete_retmux retmux
+alias rtx='retmux'
+complete -F _complete_retmux retmux
+complete -F _complete_retmux rtx

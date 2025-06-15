@@ -2,11 +2,6 @@ _terragrunt_completion() {
     local cur prev words cword
     _get_comp_words_by_ref -n : cur prev words cword
 
-    function _words_contains {
-        local list="${2:-${words[@]}}"
-        echo "$list"|grep -Eoq "(^| )$1"
-    }
-
     # Main Terragrunt commands
     local commands="backend exec run stack catalog scaffold find fd list ls dag hcl info render"
     local backend_subcommands="bootstrap delete migrate"
