@@ -1,9 +1,6 @@
 function retmux {
-  if [[ $1 == '' ]]; then
-    tmux a -t "$(tmux ls -F '#{session_name}'|head -1)"
-  else
-    tmux a -t "$1"
-  fi
+  top_session="$(tmux ls -F '#{session_name}'|head -1)"
+  tmux a -t "${1:-${top_session}}"
 }
 
 function _complete_retmux {
