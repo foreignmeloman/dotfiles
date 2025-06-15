@@ -14,11 +14,16 @@ _terragrunt_completion() {
     local hcl_subcommands="format fmt validate"
     local dag_subcommands="graph"
 
+    function cmd_stack {
+        local all_commands="${commands} ${backend_subcommands} ${run_subcommands} ${hcl_subcommands} ${dag_subcommands}"
+        echo "${words[*]}"|grep -Eo "(^| )${all_commands// /|}"|tr '\n' ' '
+    }
+
     # Global flags
-    local global_flags="--experiment --experiment-mode --log-custom-format --log-disable --log-format --log-level --log-show-abs-paths --no-color --non-interactive --strict-control --strict-mode --working-dir --help -h --version -v"
+    local global_flags="--experiment --experiment-mode --log-custom-format --log-disable --log-format --log-level --log-show-abs-paths --no-color --non-interactive --strict-control --strict-mode --tf-path --working-dir --help -h --version -v"
 
     # Command-specific flags
-    local apply_flags="-auto-approve -backup -compact-warnings -destroy -lock -lock-timeout -input= -no-color -parallelism -state -state-out -target -var -var-file"
+    local apply_flags="-auto-approve -backup -compact-warnings -destroy -lock -lock-timeout -input -no-color -parallelism -state -state-out -target -var -var-file"
     local backend_bootstrap_flags="--all -a --config --download-dir"
     local backend_delete_flags="--all -a --config --download-dir --force"
     local backend_migrate_flags="--config --download-dir --force"
@@ -33,8 +38,11 @@ _terragrunt_completion() {
     # Log levels for --log-level flag
     local log_levels="trace debug info warn error fatal panic stdout stderr"
 
+    # Suggest global flags by default
+    COMPREPLY=($(compgen -W "$global_flags" -- "$cur"))
+
     # Suggest file paths for certain flags
-    if [[ "${prev}" =~ -?-([a-z]+-)*(config|file|out)$ ]]; then
+    if [[ "${prev}" =~ -?-([a-z]+-)*(config|file|out)$ || "-backup -state" == *"$prev"* ]]; then
         compopt -o nospace
         COMPREPLY=()
         for item in $(compgen -f -- "$cur"); do
@@ -54,66 +62,74 @@ _terragrunt_completion() {
         COMPREPLY=($(compgen -W "$log_levels" -- "$cur")); return
     fi
 
-    # First level: suggest main commands or global flags. TODO FIX THIS
-    if [[ $cword -eq 1 ]] || _words_contains "$prev" "$global_flags"; then
-        COMPREPLY=($(compgen -W "$commands $run_subcommands $global_flags" -- "$cur")); return
-    fi
+    # echo depth="$(cmd_stack | wc -w)" cmds="$(cmd_stack) | $cur | $prev | ${words[*]} | $cword" >> tg.log
 
-    # backend subcommands and flags
-    if _words_contains "backend"; then
-        if _words_contains "bootstrap"; then
-            COMPREPLY=($(compgen -W "$backend_bootstrap_flags" -- "$cur")); return
-        elif _words_contains "delete"; then
-            COMPREPLY=($(compgen -W "$backend_delete_flags" -- "$cur")); return
-        elif _words_contains "migrate"; then
-            COMPREPLY=($(compgen -W "$backend_migrate_flags" -- "$cur")); return
-        fi
-        COMPREPLY=($(compgen -W "$backend_subcommands" -- "$cur")); return
-    fi
+    cmd_stack_array=($(cmd_stack))
+    case ${cmd_stack_array[0]} in
+        # main commands
+        backend)
+            case ${cmd_stack_array[1]} in
+                bootstrap)
+                    COMPREPLY+=($(compgen -W "$backend_bootstrap_flags" -- "$cur")); return
+                    ;;
+                delete)
+                    COMPREPLY+=($(compgen -W "$backend_delete_flags" -- "$cur")); return
+                    ;;
+                migrate)
+                    COMPREPLY+=($(compgen -W "$backend_migrate_flags" -- "$cur")); return
+                    ;;
+                "")
+                    COMPREPLY+=($(compgen -W "$backend_subcommands" -- "$cur")); return
+                    ;;
+            esac
+            ;;
+        dag)
+            case ${cmd_stack_array[1]} in
+                graph)
+                    COMPREPLY+=($(compgen -W "$dag_graph_flags" -- "$cur")); return
+                    ;;
+                "")
+                    COMPREPLY+=($(compgen -W "$dag_subcommands" -- "$cur")); return
+                    ;;
+            esac
+            ;;
+        find|list)
+            COMPREPLY+=($(compgen -W "$list_find_flags" -- "$cur")); return
+            ;;
+        hcl)
+            case ${cmd_stack_array[1]} in
+                format|fmt)
+                    COMPREPLY+=($(compgen -W "$hcl_fmt_flags" -- "$cur")); return
+                    ;;
+                validate)
+                    COMPREPLY+=($(compgen -W "$hcl_validate_flags" -- "$cur")); return
+                    ;;
+                "")
+                    COMPREPLY+=($(compgen -W "$hcl_subcommands" -- "$cur")); return
+                    ;;
+            esac
+            ;;
+        run)
+            if [[ -z ${cmd_stack_array[1]} ]]; then
+                COMPREPLY+=($(compgen -W "$run_flags $run_subcommands" -- "$cur")); return
+            fi
+            COMPREPLY+=($(compgen -W "$run_flags" -- "$cur")); return
+            ;;
 
-    # dag subcommands and flags
-    if _words_contains "dag"; then
-        if _words_contains "graph"; then
-            COMPREPLY=($(compgen -W "$dag_graph_flags" -- "$cur")); return
-        fi
-        COMPREPLY=($(compgen -W "$dag_subcommands" -- "$cur")); return
-    fi
-
-    # find/list subcommands and flags
-    if _words_contains "find" || _words_contains "list"; then
-        COMPREPLY=($(compgen -W "$list_find_flags" -- "$cur")); return
-    fi
-
-    # hcl subcommands and flags
-    if _words_contains "hcl"; then
-        if _words_contains "format|fmt"; then
-            COMPREPLY=($(compgen -W "$hcl_fmt_flags" -- "$cur")); return
-        elif _words_contains "validate"; then
-            COMPREPLY=($(compgen -W "$hcl_validate_flags" -- "$cur")); return
-        fi
-        COMPREPLY=($(compgen -W "$hcl_subcommands" -- "$cur")); return
-    fi
-
-    # run subcommands and flags
-    if _words_contains "run"; then
-        if [[ "$run_flags" == *"${prev}"* ]]; then
-            COMPREPLY=($(compgen -W "$run_flags $run_subcommands" -- "$cur")); return
-        else
-            COMPREPLY=($(compgen -W "$run_flags" -- "$cur")); return
-        fi
-    fi
-
-    # tf/tofu shortcut flags
-    if _words_contains "apply"; then
-        COMPREPLY=($(compgen -W "$apply_flags" -- "$cur")); return
-    elif _words_contains "init"; then
-        COMPREPLY=($(compgen -W "$init_flags" -- "$cur")); return
-    elif _words_contains "plan"; then
-        COMPREPLY=($(compgen -W "$plan_flags" -- "$cur")); return
-    fi
-
-    # Handle colon-separated completions
-    __ltrim_colon_completions "$cur"
+        # tf/tofu shortcut flags
+        apply)
+            COMPREPLY+=($(compgen -W "$apply_flags" -- "$cur")); return
+            ;;
+        init)
+            COMPREPLY+=($(compgen -W "$init_flags" -- "$cur")); return
+            ;;
+        plan)
+            COMPREPLY+=($(compgen -W "$plan_flags" -- "$cur")); return
+            ;;
+        "")
+            COMPREPLY+=($(compgen -W "$commands $run_subcommands" -- "$cur")); return
+            ;;
+    esac
 }
 
 # Register the completion function
