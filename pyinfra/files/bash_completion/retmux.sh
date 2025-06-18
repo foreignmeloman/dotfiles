@@ -4,8 +4,9 @@ function retmux {
 }
 
 function _complete_retmux {
-  local cur prev words cword options
-  _get_comp_words_by_ref -n : cur prev words cword
+  local cur prev options
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
   options=("$(tmux ls -F '#{session_name}')")
   if [[ "${options[*]}" == *"$prev"* ]]; then
     COMPREPLY=(); return
