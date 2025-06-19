@@ -6,7 +6,7 @@ function _tg_cmd_options {
       continue
     fi
 
-    if [[ -n $found_tg_commands ]] && [[ "${line}" =~ ^\ +([a-z][a-z\-]+|--[a-z\-]+)(, (-[a-z]))? ]]; then
+    if [[ -n $found_tg_commands ]] && [[ "${line}" =~ ^\ +([a-z][a-z\-]+|--[a-z\-]+)(, (-[a-z]|[a-z][a-z\-]+))? ]]; then
       echo -e "${BASH_REMATCH[1]}"
       if [[ -n "${BASH_REMATCH[3]}" ]]; then
         echo -e "${BASH_REMATCH[3]}"
