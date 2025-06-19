@@ -12,7 +12,7 @@ function _tg_cmd_options {
         echo -e "${BASH_REMATCH[3]}"
       fi
     fi
-  done < <("$@" --help)
+  done < <("$@" --help 2> /dev/null)
 }
 
 function _tg_tf_shortcuts {
@@ -62,15 +62,22 @@ function _terragrunt_completion {
     COMPREPLY=($(compgen -W "$log_levels" -- "$cur")); return
   fi
 
-  # echo "COMP_CWORD=$COMP_CWORD|COMP_LINE=$COMP_LINE|COMP_POINT=$COMP_POINT|COMP_WORDS=${COMP_WORDS[*]}|" >> tg.log
+  # echo "-------------start------------" >> tg.log
+  # echo "COMP_CWORD=$COMP_CWORD|COMP_LINE=$COMP_LINE|COMP_POINT=$COMP_POINT|COMP_WORDS=${COMP_WORDS[*]}|cur=$cur|" >> tg.log
+  # echo >> tg.log
 
-  # Strip unfinished flags from the request
-  if [[ $cur =~ -?-[a-z\-]+ ]]; then
+  # Strip last flag from the request as it may be unfinished and confuse _tg_cmd_options logic
+  # Or strip the last command if it's not followed by space for the right options to be generated
+  if [[ $cur =~ -?-[a-z\-]+ ]] || [[ ! $COMP_LINE =~ [[:space:]]$ ]]; then
     opts="$(_tg_cmd_options "${COMP_WORDS[@]:0:${#COMP_WORDS[@]}-1}")" 
   else
     opts="$(_tg_cmd_options "${COMP_WORDS[@]}")"
   fi
-  COMPREPLY+=($(compgen -W "$opts" -- "$cur")); return
+  # echo "COMPREPLY=$(compgen -W "$opts" -- "$cur"|xargs)" >> tg.log
+  # echo >> tg.log
+  # echo "opts=$opts"|xargs >> tg.log
+  # echo "-------------end------------" >> tg.log
+  COMPREPLY=($(compgen -W "$opts" -- "$cur")); return
 }
 
 # Register the completion function
