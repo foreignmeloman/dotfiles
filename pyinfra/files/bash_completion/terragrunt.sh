@@ -1,5 +1,7 @@
 function _tg_cmd_options {
   # Example args: terragrunt dag graph ...
+  # echo "_tg_cmd_options $@">> tg.log
+  # echo >> tg.log
   while IFS= read -r line; do
     if [[ "${line}" =~ ^([A-Z][a-z]+ c|C)ommands:$ ]] || [[ "${line}" =~ ^(Global\ )?Options:$ ]]; then
       found_tg_commands=1
@@ -66,9 +68,19 @@ function _terragrunt_completion {
   # echo "COMP_CWORD=$COMP_CWORD|COMP_LINE=$COMP_LINE|COMP_POINT=$COMP_POINT|COMP_WORDS=${COMP_WORDS[*]}|cur=$cur|" >> tg.log
   # echo >> tg.log
 
+  if (( $COMP_POINT < ${#COMP_LINE} )); then
+    local args
+    read -a args <<< "${COMP_LINE:0:${COMP_POINT}}"
+    opts="$(_tg_cmd_options "${args[@]}")"
+    # echo "args=${args[@]}" >> tg.log
+    # echo >> tg.log
+    cur="${args[-1]}"
+    if [[ $cur =~ -?-[a-z\-]+ ]]; then
+       opts="$(_tg_cmd_options "${args[@]:0:${#args[@]}-1}")"
+    fi
   # Strip last flag from the request as it may be unfinished and confuse _tg_cmd_options logic
   # Or strip the last command if it's not followed by space for the right options to be generated
-  if [[ $cur =~ -?-[a-z\-]+ ]] || [[ ! $COMP_LINE =~ [[:space:]]$ ]]; then
+  elif [[ $cur =~ -?-[a-z\-]+ ]] || [[ ! $COMP_LINE =~ [[:space:]]$ ]]; then
     opts="$(_tg_cmd_options "${COMP_WORDS[@]:0:${#COMP_WORDS[@]}-1}")" 
   else
     opts="$(_tg_cmd_options "${COMP_WORDS[@]}")"
@@ -77,7 +89,7 @@ function _terragrunt_completion {
   # echo >> tg.log
   # echo "opts=$opts"|xargs >> tg.log
   # echo "-------------end------------" >> tg.log
-  COMPREPLY=($(compgen -W "$opts" -- "$cur")); return
+  COMPREPLY=($(compgen -W "$opts" -- "$cur"))
 }
 
 # Register the completion function
