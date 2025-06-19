@@ -30,6 +30,7 @@ function _tg_tf_shortcuts {
 }
 
 function _terragrunt_completion {
+  compopt -o nosort
   local cmd cur prev opts
   cmd="${COMP_WORDS[0]}"
   cur="${COMP_WORDS[COMP_CWORD]}"
