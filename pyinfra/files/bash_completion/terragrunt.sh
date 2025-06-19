@@ -12,7 +12,7 @@ function _tg_cmd_options {
         echo -e "${BASH_REMATCH[3]}"
       fi
     fi
-  done < <("$@" --help 2> /dev/null)
+  done < <("$@" --help)
 }
 
 function _tg_tf_shortcuts {
@@ -63,8 +63,13 @@ function _terragrunt_completion {
   fi
 
   # echo "COMP_CWORD=$COMP_CWORD|COMP_LINE=$COMP_LINE|COMP_POINT=$COMP_POINT|COMP_WORDS=${COMP_WORDS[*]}|" >> tg.log
-  # echo "tf_shortcuts=${tf_shortcuts}" >> tg.log
-  opts="$(_tg_cmd_options ${COMP_WORDS[*]})"
+
+  # Strip unfinished flags from the request
+  if [[ $cur =~ -?-[a-z\-]+ ]]; then
+    opts="$(_tg_cmd_options "${COMP_WORDS[@]:0:${#COMP_WORDS[@]}-1}")" 
+  else
+    opts="$(_tg_cmd_options "${COMP_WORDS[@]}")"
+  fi
   COMPREPLY+=($(compgen -W "$opts" -- "$cur")); return
 }
 
