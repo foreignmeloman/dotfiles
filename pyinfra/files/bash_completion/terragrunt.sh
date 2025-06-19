@@ -28,7 +28,7 @@ function _tg_tf_shortcuts {
     if [[ -n $found_tofu_shortcuts ]] && [[ "${line}" =~ ^\ +([a-z][a-z\-]+) ]]; then
       echo -e "${BASH_REMATCH[1]}"
     fi
-  done < <("$1" -help)
+  done < <("$1" --help)
 }
 
 function _terragrunt_completion {
