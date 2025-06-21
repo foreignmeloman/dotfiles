@@ -35,8 +35,9 @@ function _tg_cmd_options {
     # shellcheck disable=SC2016
     local tf_pattern='^ +This is a shortcut for the command `terragrunt run`\.$'
     if [[ "${line}" =~ $tf_pattern ]]; then
-      local terraform_binary=$($1 info print| awk -F': *' '/"terraform_binary"/ { gsub(/[",]/, "", $2); print $2 }')
-      _tf_cmd_options $terraform_binary "${@:2:$#}"
+      local terraform_binary
+      terraform_binary=$($1 info print|awk -F': *' '/"terraform_binary"/ { gsub(/[",]/, "", $2); print $2 }')
+      _tf_cmd_options "$terraform_binary" "${@:2:$#}"
       break
     fi
     if [[ $found_tg_commands -eq 1 ]] && [[ "${line}" =~ ^\ +([a-z][a-z\-]+|--[a-z\-]+)(, (-[a-z]|[a-z][a-z\-]+))? ]]; then
@@ -50,7 +51,7 @@ function _tg_cmd_options {
 
 function _terragrunt_completion {
   compopt -o nosort
-  local cmd cur prev opts
+  local cur prev opts
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
@@ -58,7 +59,7 @@ function _terragrunt_completion {
   local log_levels="trace debug info warn error fatal panic stdout stderr"
 
   # Suggest file paths for certain flags
-  if [[ "$prev" =~ -?-([a-z]+-)*(config|file|out)$ || "$prev" =~ "-backup|-state" ]]; then
+  if [[ "$prev" =~ -?-([a-z]+-)*(config|file|out)$ || "$prev" =~ -backup|-state ]]; then
     compopt -o nospace
     COMPREPLY=()
     for item in $(compgen -f -- "$cur"); do
@@ -79,12 +80,12 @@ function _terragrunt_completion {
   fi
 
   if (( $COMP_POINT < ${#COMP_LINE} )); then
-    local args
-    read -a args <<< "${COMP_LINE:0:${COMP_POINT}}"
-    opts="$(_tg_cmd_options "${args[@]}")"
-    cur="${args[-1]}"
+    local cursor_args
+    read -ra cursor_args <<< "${COMP_LINE:0:${COMP_POINT}}"
+    opts="$(_tg_cmd_options "${cursor_args[@]}")"
+    cur="${cursor_args[-1]}"
     if [[ $cur =~ -?-[a-z\-]+ ]]; then
-       opts="$(_tg_cmd_options "${args[@]:0:${#args[@]}-1}")"
+       opts="$(_tg_cmd_options "${cursor_args[@]:0:${#cursor_args[@]}-1}")"
     fi
   # Strip last flag from the request as it may be unfinished and confuse _tg_cmd_options logic
   # Or strip the last command if it's not followed by space for the right options to be generated
