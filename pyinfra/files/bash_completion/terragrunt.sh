@@ -36,7 +36,7 @@ function _tg_cmd_options {
     local tf_pattern='^ +This is a shortcut for the command `terragrunt run`\.$'
     if [[ "${line}" =~ $tf_pattern ]]; then
       local terraform_binary
-      terraform_binary=$($1 info print|awk -F': *' '/"terraform_binary"/ { gsub(/[",]/, "", $2); print $2 }')
+      terraform_binary=$($1 --working-dir /dev/null info print|awk -F': *' '/"terraform_binary"/ { gsub(/[",]/, "", $2); print $2 }')
       _tf_cmd_options "$terraform_binary" "${@:2:$#}"
       break
     fi
