@@ -98,12 +98,10 @@
     "workbench.preferredLightColorTheme": "Atom One Light",
     "window.titleBarStyle": "custom",
     // editor END
-
     // Ansible
     "ansible.validation.lint.arguments": "",
     "ansible.lightspeed.enabled": false,
     // Ansible END
-
     // Docker
     "[dockerfile]": {
         "editor.parameterHints.enabled": false,
@@ -204,6 +202,8 @@
             "domain": "git.parent.onetick.com",
         }
     ],
+    "scm.defaultViewMode": "tree",
+    "scm.graph.badges": "all",
     //Git END
     // python
     "python.analysis.autoImportCompletions": false,
