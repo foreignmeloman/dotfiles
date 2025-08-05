@@ -31,6 +31,7 @@ PATH="${PATH}:/usr/sbin"
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
 
 # {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
+export TMUX_TMPDIR='/tmp'
 # WSL2 PATH config
 # {{- $winUserName = output "sh" "-c" "/mnt/c/Windows/system32/cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
 PATH="${PATH}:/mnt/c/Windows"
@@ -93,6 +94,9 @@ function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
       echo Starting ssh-agent WSL proxy
+      if ! command -v socat > /dev/null; then
+        echo "ERROR: No socat installed" >&2
+      fi
       rm -f $1
       kill $(ps aux | grep "socat UNIX-LISTEN:$1" | head -1 | awk '{print $2}') 2> /dev/null
       (setsid socat UNIX-LISTEN:$1,fork EXEC:"/mnt/c/Users/{{ $winUserName }}/root/bin/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
