@@ -70,7 +70,7 @@ alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 # {{- else }}
 alias clip='xclip -sel clip'
 # {{- end }}
-if [ ! -z "$(command -v terraform)" ]; then
+if command -v terraform > /dev/null; then
   function tf {
     terraform "$@"
   }
@@ -118,13 +118,13 @@ fi
 # tmux END
 
 # yq ############################################
-if [ ! -z "$(command -v yq)" ]; then
+if command -v yq > /dev/null; then
   source <(yq shell-completion bash)
 fi
 # yq END
 
 # kubectl #######################################
-if [ ! -z "$(command -v kubectl)" ]; then
+if command -v kubectl > /dev/null; then
   source <(kubectl completion bash)
   alias k=kubectl
   complete -o default -F __start_kubectl k
@@ -132,7 +132,7 @@ fi
 # kubectl END
 
 # helm ##########################################
-if [ ! -z "$(command -v helm)" ]; then
+if command -v helm > /dev/null; then
   source <(helm completion bash 2> /dev/null)
   function hupgrade {
     local chart_dir=$(readlink -f $1)
@@ -146,32 +146,32 @@ fi
 # helm END
 
 # cezmoi ########################################
-if [ ! -z "$(command -v chezmoi)" ]; then
+if command -v chezmoi > /dev/null; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
 
 # ruff ##########################################
-if [ ! -z "$(command -v ruff)" ]; then
+if command -v ruff > /dev/null; then
   source <(ruff generate-shell-completion bash)
 fi
 # ruff END
 
 # uv ##########################################
-if [ ! -z "$(command -v uv)" ]; then
+if command -v uv > /dev/null; then
   source <(uv generate-shell-completion bash)
 fi
 # uv END
 
 # pipx ##########################################
-if [ ! -z "$(command -v pipx)" ]; then
+if command -v pipx > /dev/null; then
   # shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1083 # Go templates
   source <({{ $registerPythonArgcomplete }} pipx)
 fi
 # pipx END
 
 # aws ###########################################
-if [ ! -z "$(command -v aws)" ] && [ ! -z "$(command -v aws_completer)" ]; then
+if command -v aws > /dev/null && command -v aws_completer > /dev/null; then
   complete -C aws_completer aws
 fi
 # aws END
@@ -190,7 +190,7 @@ fi
 # yazi END
 
 # tenv ##########################################
-if [ ! -z "$(command -v tenv)" ]; then
+if command -v tenv > /dev/null; then
   source <(tenv completion bash)
 fi
 # tenv END

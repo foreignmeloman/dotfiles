@@ -98,6 +98,8 @@ function _terragrunt_completion {
 }
 
 # Register the completion function
-function tg { terragrunt "$@"; }
-complete -F _terragrunt_completion terragrunt
-complete -F _terragrunt_completion tg
+if command -v terragrunt > /dev/null; then
+  function tg { terragrunt "$@"; }
+  complete -F _terragrunt_completion terragrunt
+  complete -F _terragrunt_completion tg
+fi
