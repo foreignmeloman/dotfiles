@@ -13,7 +13,7 @@
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
     "editor.tabSize": 4,
-    "editor.minimap.autohide": true,
+    "editor.minimap.autohide": "scroll",
     "editor.minimap.maxColumn": 100,
     "editor.minimap.showSlider": "always",
     "editor.wordWrap": "off",
@@ -269,4 +269,7 @@
         "tfstate",
         "tfvars"
     ],
+    "vs-kubernetes": {
+        "vs-kubernetes.crd-code-completion": "enabled"
+    },
 }
