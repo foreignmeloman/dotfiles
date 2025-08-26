@@ -29,6 +29,7 @@ PATH="${PATH}:/usr/sbin"
 # {{- end }}
 
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv 2> /dev/null)"
 
 # {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 export TMUX_TMPDIR='/tmp'

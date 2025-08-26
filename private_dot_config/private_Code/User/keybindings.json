@@ -56,5 +56,13 @@
 		"key": "alt+right",
 		"command": "workbench.action.navigateForward",
 		"when": "canNavigateForward"
-	}
+    },
+    {
+        "key": "shift+enter",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "\\\r\n"
+        },
+        "when": "terminalFocus"
+    }
 ]
