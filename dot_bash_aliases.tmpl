@@ -29,7 +29,7 @@ PATH="${PATH}:/usr/sbin"
 # {{- end }}
 
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
-test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv 2> /dev/null)"
+test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 # {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 export TMUX_TMPDIR='/tmp'
@@ -118,12 +118,6 @@ if ! [ "${TERM_PROGRAM}" == 'vscode' ] && [ -z "${TMUX}" ]; then
 fi
 # tmux END
 
-# yq ############################################
-if command -v yq > /dev/null; then
-  source <(yq shell-completion bash)
-fi
-# yq END
-
 # kubectl #######################################
 if command -v kubectl > /dev/null; then
   source <(kubectl completion bash)
@@ -132,31 +126,31 @@ if command -v kubectl > /dev/null; then
 fi
 # kubectl END
 
+# {{- if eq .chezmoi.osRelease.name "Ubuntu" }} Ubuntu completions
+# yq ############################################
+if command -v yq > /dev/null; then
+  source <(yq shell-completion bash)
+fi
+# yq END
+
 # helm ##########################################
 if command -v helm > /dev/null; then
   source <(helm completion bash 2> /dev/null)
-  function hupgrade {
-    local chart_dir=$(readlink -f $1)
-    local args=$(echo "${@:2}")
-    local chart_name=$(grep -E '^name: .*$' ${chart_dir}/Chart.yaml | awk '{print $2}')
-    local cmd="helm dependency update ${chart_dir} && helm upgrade -i --dependency-update ${args} ${chart_name} ${chart_dir}"
-    echo $cmd
-    eval $cmd
-  }
 fi
 # helm END
 
-# cezmoi ########################################
+# chezmoi ########################################
 if command -v chezmoi > /dev/null; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
+# Ubuntu completions {{- end }}
 
-# ruff ##########################################
-if command -v ruff > /dev/null; then
-  source <(ruff generate-shell-completion bash)
-fi
-# ruff END
+# # ruff ##########################################
+# if command -v ruff > /dev/null; then
+#   source <(ruff generate-shell-completion bash)
+# fi
+# # ruff END
 
 # uv ##########################################
 if command -v uv > /dev/null; then

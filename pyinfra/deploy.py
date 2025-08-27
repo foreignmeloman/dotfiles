@@ -22,6 +22,13 @@ if host.get_fact(KernelVersion).count('microsoft') == 0:
         user_mode=True,
         enabled=True,
     )
+else:
+    files.put(
+        name='WSL configuration',
+        src='files/wsl.conf',
+        dest='/etc/wsl.conf',
+        _sudo=True,
+    )
 
 
 FONTS_DIR = f'{HOME_DIR}/.local/share/fonts'
@@ -81,11 +88,13 @@ if host.get_fact(LinuxName) == 'openSUSE Tumbleweed':
         name='Install required packages',
         packages=[
             'btop',
+            'chezmoi-bash-completion',
             'fetchmsttfonts',
             'gdu',
             'git',
             'gping',
             'helm',
+            'helm-bash-completion',
             'k9s',
             'keepassxc',
             'lf',
