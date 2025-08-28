@@ -82,6 +82,7 @@ fi
 function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
+# {{- if not (contains "WSL2" .chezmoi.kernel.osrelease) }}
 function _code_wayland {
   /usr/bin/code --ozone-platform=wayland "$@"
 }
@@ -89,6 +90,7 @@ function _code_wayland {
 if [ "${XDG_SESSION_TYPE}" == 'wayland' ]; then
   alias code='_code_wayland'
 fi
+# {{- end }}
 
 # KeePass WSL2 SSH agent {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 function _ssh_agent_wsl_proxy {
