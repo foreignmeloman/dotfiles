@@ -226,6 +226,7 @@
     },
     // python END
     // remote
+    "remote.autoForwardPortsSource": "process",
     "remote.SSH.defaultExtensions": [
         "python"
     ],
