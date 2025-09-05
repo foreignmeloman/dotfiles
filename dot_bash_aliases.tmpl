@@ -12,20 +12,10 @@ test -s ~/.bash_aliases_work && . ~/.bash_aliases_work || true
 
 # Environment Variables #########################
 
-# {{- $registerPythonArgcomplete := ""}} {{- $winUserName := "" }}
+# {{- $winUserName := "" }}
 
 # {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
-# {{- $registerPythonArgcomplete = "register-python-argcomplete"}}
 PATH="${PATH}:/usr/sbin"
-# {{- end }}
-
-# {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
-# {{-   $majorVersion := atoi (split "." .chezmoi.osRelease.versionID)._0 }}
-# {{-   if ge $majorVersion 24 }}
-# {{-     $registerPythonArgcomplete = "register-python-argcomplete"}}
-# {{-   else}}
-# {{-     $registerPythonArgcomplete = "register-python-argcomplete3"}}
-# {{-   end }}
 # {{- end }}
 
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
@@ -160,31 +150,11 @@ if command -v uv > /dev/null; then
 fi
 # uv END
 
-# pipx ##########################################
-if command -v pipx > /dev/null; then
-  # shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1083 # Go templates
-  source <({{ $registerPythonArgcomplete }} pipx)
-fi
-# pipx END
-
 # aws ###########################################
 if command -v aws > /dev/null && command -v aws_completer > /dev/null; then
   complete -C aws_completer aws
 fi
 # aws END
-
-# yazi ##########################################
-# if [ ! -z "$(command -v yazi)" ]; then
-#   function yy() {
-#     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-#     yazi "$@" --cwd-file="$tmp"
-#     if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-#       builtin cd -- "$cwd"
-#     fi
-#     rm -f -- "$tmp"
-#   }
-# fi
-# yazi END
 
 # tenv ##########################################
 if command -v tenv > /dev/null; then

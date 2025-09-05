@@ -3,17 +3,6 @@
 set -e
 
 export PATH="${PATH}:${HOME}/.local/bin"
-# {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
-sudo zypper --non-interactive install -y python3-pipx
-pipx upgrade --install pyinfra
-# {{- end }}
-
-# {{- if eq .chezmoi.osRelease.name "Ubuntu" }}
-sudo apt-get update && sudo apt-get install -y pipx
-if pipx list | grep -q pyinfra; then
-  pipx upgrade pyinfra
-else
-  pipx install pyinfra
-fi
-# {{- end }}
-
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv tool install uv --force
+uv tool install pyinfra

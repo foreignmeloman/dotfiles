@@ -2,6 +2,7 @@
 # vim: syntax=bash:
 set -e
 
+# shellcheck disable=SC1009,SC1054,SC1056,SC1072,SC1073,SC1036
 {{ output "find" (print .chezmoi.sourceDir "/pyinfra/") "-type" "f" "-exec" "sha256sum" "{}" "+" | comment "# " }}
 
 export PATH="${PATH}:${HOME}/.local/bin"
