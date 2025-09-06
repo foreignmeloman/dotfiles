@@ -15,7 +15,7 @@ Install chezmoi on:
 
 * Tumbleweed:
     ```bash
-    sudo zypper in -y chezmoi
+    sudo zypper in -y chezmoi curl tar gzip
     ```
 
 * Ubuntu:
@@ -23,16 +23,13 @@ Install chezmoi on:
     BINDIR="${HOME}/.local/bin" sh -c "$(curl -fsLS get.chezmoi.io)"
     ```
 ---
-Init command for:
+Init command:
 
-* the repo owner:
-    ```bash
-    export PATH="${PATH}:${HOME}/.local/bin"
-    chezmoi init --apply git@github.com:foreignmeloman/dotfiles.git
-    ```
+```bash
+export PATH="${PATH}:${HOME}/.local/bin"
+chezmoi init --apply foreignmeloman
 
-* the guests:
-    ```bash
-    export PATH="${PATH}:${HOME}/.local/bin"
-    chezmoi init --apply foreignmeloman
-    ```
+# (Optional) Change the chezmoi git remote URL to SSH
+chezmoi cd
+git remote set-url origin git@github.com:foreignmeloman/dotfiles.git
+```
