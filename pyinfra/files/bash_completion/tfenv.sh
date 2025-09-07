@@ -1,4 +1,4 @@
-if [ ! -z "$(command -v tfenv)" ]; then
+if command -v tfenv > /dev/null; then
   function __complete_tfenv {
     local CMD=$1 COMP=$2 PREV_CMD=$3
     local -a SUPPORTED_CMDS
