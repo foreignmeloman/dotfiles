@@ -1,4 +1,4 @@
-plugin:
+plugins:
   # See https://k9scli.io/topics/plugins/
   raw-logs-follow:
     shortCut: Ctrl-L
@@ -53,3 +53,40 @@ plugin:
     - $NAMESPACE
     - --context
     - $CONTEXT
+  tmux-shell:
+    shortCut: w
+    description: "tmux horizontal split shell"
+    scopes:
+    - po
+    command: tmux
+    background: false
+    args:
+    - split-window
+    - -v
+    - kubectl
+    - --context=$CONTEXT
+    - --namespace=$NAMESPACE
+    - exec
+    - -it
+    - $NAME
+    - --
+    - /bin/bash
+  tmux-shell-container:
+    shortCut: w
+    description: "tmux horizontal split shell"
+    scopes:
+    - containers
+    command: tmux
+    background: false
+    args:
+    - split-window
+    - -v
+    - kubectl
+    - --context=$CONTEXT
+    - --namespace=$NAMESPACE
+    - exec
+    - -it
+    - --container=$NAME
+    - $POD
+    - --
+    - /bin/bash
