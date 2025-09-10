@@ -63,14 +63,12 @@ plugins:
     args:
     - split-window
     - -v
-    - kubectl
-    - --context=$CONTEXT
-    - --namespace=$NAMESPACE
-    - exec
-    - -it
-    - $NAME
-    - --
-    - /bin/bash
+    - bash
+    - -c
+    - >-
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it $NAME -- /bin/sh 2> /dev/null ||
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it $NAME -- /bin/bash 2> /dev/null ||
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it $NAME -- /bin/ash
   tmux-shell-container:
     shortCut: w
     description: "tmux horizontal split shell"
@@ -81,12 +79,9 @@ plugins:
     args:
     - split-window
     - -v
-    - kubectl
-    - --context=$CONTEXT
-    - --namespace=$NAMESPACE
-    - exec
-    - -it
-    - --container=$NAME
-    - $POD
-    - --
-    - /bin/bash
+    - bash
+    - -c
+    - >-
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/sh 2> /dev/null ||
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/bash 2> /dev/null ||
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/ash
