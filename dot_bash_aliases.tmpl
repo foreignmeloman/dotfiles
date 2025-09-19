@@ -118,6 +118,12 @@ if command -v kubectl > /dev/null; then
 fi
 # kubectl END
 
+# k9s ############################################
+if command -v k9s > /dev/null; then
+  source <(k9s completion bash)
+fi
+# k9s END
+
 # {{- if eq .chezmoi.osRelease.name "Ubuntu" }} Ubuntu completions
 # yq ############################################
 if command -v yq > /dev/null; then
