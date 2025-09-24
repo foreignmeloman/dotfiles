@@ -106,4 +106,4 @@ plugins:
     confirm: true
     args:
     - -c
-    - kubectl --context=$CONTEXT annotate $RESOURCE_NAME $NAME force-sync=$(date +%s) --overwrite
+    - kubectl --context=$CONTEXT annotate $RESOURCE_NAME $NAME external-secrets.io/force-sync=$(date +%s) --overwrite
