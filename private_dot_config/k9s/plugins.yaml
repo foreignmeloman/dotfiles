@@ -85,3 +85,25 @@ plugins:
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/sh 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/bash 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/ash
+  external-secret-refresh:
+    shortCut: r
+    description: "Annotate extenal secret to be refreshed immideately"
+    scopes:
+    - externalsecrets
+    command: bash
+    background: true
+    confirm: true
+    args:
+    - -c
+    - kubectl --context=$CONTEXT --namespace=$NAMESPACE annotate $RESOURCE_NAME $NAME force-sync=$(date +%s) --overwrite
+  cluster-external-secret-refresh:
+    shortCut: r
+    description: "Annotate cluster extenal secret to be refreshed immideately"
+    scopes:
+    - clusterexternalsecrets
+    command: bash
+    background: true
+    confirm: true
+    args:
+    - -c
+    - kubectl --context=$CONTEXT annotate $RESOURCE_NAME $NAME force-sync=$(date +%s) --overwrite
