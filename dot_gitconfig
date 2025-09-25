@@ -6,3 +6,7 @@
 	path = ~/.config/git/personal.gitconfig
 [includeIf "gitdir:~/.local/share/chezmoi/**"]
 	path = ~/.config/git/personal.gitconfig
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true

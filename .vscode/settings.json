@@ -2,5 +2,6 @@
 	"files.associations": {
 		"dot_bash*": "shellscript",
 		"*.sh.tmpl": "shellscript",
+		"*gitconfig": "properties",
 	}
 }
