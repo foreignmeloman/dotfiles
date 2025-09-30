@@ -5,7 +5,7 @@ if [ "${TERM_PROGRAM}" != 'tmux' ]; then
   exit 1
 fi
 
-ssh_list=($@)
+ssh_list=("$@")
 
 split_list=()
 for ssh_entry in "${ssh_list[@]:1}"; do
