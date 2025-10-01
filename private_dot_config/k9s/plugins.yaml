@@ -1,58 +1,4 @@
 plugins:
-  # See https://k9scli.io/topics/plugins/
-  raw-logs-follow:
-    shortCut: Ctrl-L
-    description: logs -f
-    scopes:
-    - po
-    command: kubectl
-    background: false
-    args:
-    - logs
-    - -f
-    - $NAME
-    - -n
-    - $NAMESPACE
-    - --context
-    - $CONTEXT
-  log-less:
-    shortCut: Shift-L
-    description: "logs|less"
-    scopes:
-    - po
-    command: bash
-    background: false
-    args:
-    - -c
-    - '"$@" | batcat -l log --wrap=never'
-    - dummy-arg
-    - kubectl
-    - logs
-    - $NAME
-    - -n
-    - $NAMESPACE
-    - --context
-    - $CONTEXT
-  log-less-container:
-    shortCut: Shift-L
-    description: "logs|less"
-    scopes:
-    - containers
-    command: bash
-    background: false
-    args:
-    - -c
-    - '"$@" | batcat -l log --wrap=never'
-    - dummy-arg
-    - kubectl
-    - logs
-    - -c
-    - $NAME
-    - $POD
-    - -n
-    - $NAMESPACE
-    - --context
-    - $CONTEXT
   tmux-shell:
     shortCut: w
     description: "tmux horizontal split shell"
@@ -107,3 +53,13 @@ plugins:
     args:
     - -c
     - kubectl --context=$CONTEXT annotate $RESOURCE_NAME $NAME external-secrets.io/force-sync=$(date +%s) --overwrite
+  gonzo:
+    shortCut: Ctrl-L
+    description: "Gonzo log analysis"
+    scopes:
+      - po
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl logs -f --tail=0 $NAME -n $NAMESPACE --context $CONTEXT | gonzo"
