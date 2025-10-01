@@ -63,3 +63,13 @@ plugins:
     args:
       - -c
       - "kubectl logs -f --tail=0 $NAME -n $NAMESPACE --context $CONTEXT | gonzo"
+  gonzo-container:
+    shortCut: Ctrl-L
+    description: "Gonzo log analysis"
+    scopes:
+      - containers
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl logs -f --tail=0 --container=$NAME $POD -n $NAMESPACE --context $CONTEXT | gonzo"
