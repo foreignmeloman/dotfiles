@@ -120,6 +120,7 @@ fi
 
 # k9s ############################################
 if command -v k9s > /dev/null; then
+  # export KUBECACHEDIR=/dev/null
   source <(k9s completion bash)
 fi
 # k9s END
