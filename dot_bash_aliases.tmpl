@@ -100,7 +100,7 @@ _ssh_agent_wsl_proxy $SSH_AUTH_SOCK
 # KeePass WSL2 SSH agent END {{- end }}
 
 # tmux ##########################################
-if ! [ "${TERM_PROGRAM}" == 'vscode' ] && [ -z "${TMUX}" ]; then
+if ! [[ "${TERM_PROGRAM}" =~ vscode|zed ]] && [[ -z "${TMUX}" ]]; then
   if tmux has-session -t "main" 2> /dev/null; then
     tmux a -t main
   else
