@@ -1,6 +1,6 @@
 plugins:
   tmux-shell:
-    shortCut: w
+    shortCut: x
     description: "tmux horizontal split shell"
     scopes:
     - po
@@ -16,7 +16,7 @@ plugins:
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it $NAME -- /bin/bash 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it $NAME -- /bin/ash
   tmux-shell-container:
-    shortCut: w
+    shortCut: x
     description: "tmux horizontal split shell"
     scopes:
     - containers
