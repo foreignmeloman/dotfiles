@@ -208,6 +208,19 @@ plugins:
       else
         kubectl --context $CONTEXT patch kustomization -n $NAMESPACE $NAME --type=merge -p '{"spec":{"suspend":true}}'
       fi
+  flux-tmux-log-kustomization:
+    shortCut: l
+    scopes:
+    - kustomizations
+    description: Log Kustomization events
+    command: tmux
+    background: false
+    args:
+    - split-window
+    - -v
+    - bash
+    - -c
+    - kubectl --context $CONTEXT events --namespace $NAMESPACE --for kustomization/$NAME -w
   flux-reconcile-git:
     shortCut: Shift-R
     confirm: false
