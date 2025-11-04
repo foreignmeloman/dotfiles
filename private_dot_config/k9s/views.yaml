@@ -1,0 +1,9 @@
+views:
+  helm.toolkit.fluxcd.io/v2/helmreleases:
+    sortColumn: NAME:asc
+    columns:
+      - NAME
+      - READY
+      - STATUS
+      - SUSPENDED:.spec.suspend
+      - AGE
