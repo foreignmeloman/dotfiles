@@ -167,22 +167,47 @@ plugins:
     scopes:
       - helmreleases
     description: Toggle to suspend or resume a HelmRelease
-    command: sh
+    command: bash
+    background: true
+    args:
+    - -c
+    - |
+      SUSPENDED=$(kubectl --context $CONTEXT get helmreleases -n $NAMESPACE $NAME -o jsonpath='{.spec.suspend}')
+      if [ "$SUSPENDED" = "true" ]; then
+        kubectl --context $CONTEXT patch helmrelease -n $NAMESPACE $NAME --type=merge -p '{"spec":{"suspend":false}}'
+      else
+        kubectl --context $CONTEXT patch helmrelease -n $NAMESPACE $NAME --type=merge -p '{"spec":{"suspend":true}}'
+      fi
+  flux-tmux-log-helmrelease:
+    shortCut: l
+    scopes:
+    - helmreleases
+    description: Log HelmRelease events
+    command: tmux
     background: false
     args:
-      - -c
-      - "flux --context $CONTEXT $([ $(kubectl --context $CONTEXT get helmreleases -n $NAMESPACE $NAME -o=custom-columns=TYPE:.spec.suspend | tail -1) = \"true\" ] && echo \"resume\" || echo \"suspend\") helmrelease -n $NAMESPACE $NAME | less"
+    - split-window
+    - -v
+    - bash
+    - -c
+    - kubectl --context $CONTEXT events --namespace $NAMESPACE --for helmrelease/$NAME -w
   flux-toggle-kustomization:
     shortCut: Shift-T
     confirm: true
     scopes:
       - kustomizations
     description: Toggle to suspend or resume a Kustomization
-    command: sh
-    background: false
+    command: bash
+    background: true
     args:
-      - -c
-      - "flux --context $CONTEXT $([ $(kubectl --context $CONTEXT get kustomizations -n $NAMESPACE $NAME -o=custom-columns=TYPE:.spec.suspend | tail -1) = \"true\" ] && echo \"resume\" || echo \"suspend\") kustomization -n $NAMESPACE $NAME | less"
+    - -c
+    - |
+      SUSPENDED=$(kubectl --context $CONTEXT get kustomizations -n $NAMESPACE $NAME -o jsonpath='{.spec.suspend}')
+      if [ "$SUSPENDED" = "true" ]; then
+        kubectl --context $CONTEXT patch kustomization -n $NAMESPACE $NAME --type=merge -p '{"spec":{"suspend":false}}'
+      else
+        kubectl --context $CONTEXT patch kustomization -n $NAMESPACE $NAME --type=merge -p '{"spec":{"suspend":true}}'
+      fi
   flux-reconcile-git:
     shortCut: Shift-R
     confirm: false
@@ -200,11 +225,14 @@ plugins:
     description: Flux reconcile
     scopes:
     - helmreleases
-    command: sh
+    command: tmux
     background: false
     args:
+    - split-window
+    - -v
+    - bash
     - -c
-    - "flux --context $CONTEXT reconcile helmrelease -n $NAMESPACE $NAME | less"
+    - flux --context $CONTEXT reconcile helmrelease -n $NAMESPACE $NAME
   flux-reconcile-ks:
     shortCut: Shift-R
     confirm: false
