@@ -7,3 +7,11 @@ views:
       - STATUS
       - SUSPENDED:.spec.suspend
       - AGE
+  kustomize.toolkit.fluxcd.io/v1/kustomizations:
+    sortColumn: NAME:asc
+    columns:
+      - NAME
+      - READY
+      - STATUS
+      - SUSPENDED:.spec.suspend
+      - AGE
