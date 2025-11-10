@@ -32,6 +32,19 @@ plugins:
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/sh 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/bash 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/ash
+  tmux-helm-history:
+    shortCut: h
+    description: "Helm history tmux popup"
+    scopes:
+    - helm
+    command: tmux
+    background: true
+    args:
+    - display-popup
+    - -E
+    - bash
+    - -c
+    - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less
   # ESO
   external-secret-refresh:
     shortCut: r
