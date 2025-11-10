@@ -243,6 +243,19 @@ plugins:
     args:
     - -c
     - kubectl --context=$CONTEXT --namespace=$NAMESPACE annotate helmreleases $NAME reconcile.fluxcd.io/requestedAt="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --overwrite
+  flux-reconcile-hr-force:
+    shortCut: Shift-F
+    confirm: true
+    description: Flux reconcile (force upgrade)
+    scopes:
+    - helmreleases
+    command: bash
+    background: true
+    args:
+    - -c
+    - >
+      TOKEN="$(date +%s)";
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE annotate --overwrite helmreleases $NAME "reconcile.fluxcd.io/requestedAt=$TOKEN" "reconcile.fluxcd.io/forceAt=$TOKEN"
   flux-reconcile-ks:
     shortCut: Shift-R
     confirm: true
