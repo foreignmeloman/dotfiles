@@ -41,6 +41,10 @@ plugins:
     background: true
     args:
     - display-popup
+    - -w
+    - 80%
+    - -h
+    - 80%
     - -E
     - bash
     - -c
