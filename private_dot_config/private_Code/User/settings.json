@@ -17,10 +17,10 @@
     "editor.minimap.maxColumn": 100,
     "editor.minimap.showSlider": "always",
     "editor.wordWrap": "off",
-    "editor.wrappingIndent": "indent",
     "editor.suggestSelection": "first",
     "editor.selectionClipboard": false,
     "editor.lineNumbers": "relative",
+    "window.title": "${dirty}${rootName}${separator}${activeEditorShort}${separator}${profileName}${separator}${appName}",
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
@@ -94,7 +94,7 @@
     // "workbench.settings.openDefaultSettings": true,
     "workbench.settings.useSplitJSON": false,
     "window.autoDetectColorScheme": true,
-    "workbench.preferredDarkColorTheme": "One Dark Pro",
+    "workbench.preferredDarkColorTheme": "One Dark Pro Night Flat",
     "workbench.preferredLightColorTheme": "Atom One Light",
     "window.titleBarStyle": "custom",
     // editor END
@@ -129,14 +129,15 @@
         "editor.tabSize": 2,
     },
     "[dockercompose]": {
-        "editor.autoIndent": "keep",
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
         "editor.quickSuggestions": {
             "other": true,
             "comments": false,
             "strings": true
-        }
+        },
+        "editor.defaultFormatter": "redhat.vscode-yaml"
     },
     // yaml END
     // Terraform
@@ -226,7 +227,6 @@
     },
     // python END
     // remote
-    "remote.autoForwardPortsSource": "process",
     "remote.SSH.defaultExtensions": [
         "python"
     ],
@@ -245,6 +245,7 @@
     "terminal.integrated.tabs.enabled": false,
     "terminal.integrated.shellIntegration.enabled": true,
     "terminal.integrated.enableImages": true,
+    "terminal.integrated.stickyScroll.enabled": false,
     "update.showReleaseNotes": false,
     "workbench.iconTheme": "material-icon-theme",
     "errorLens.enabledDiagnosticLevels": [
@@ -273,4 +274,9 @@
     "vs-kubernetes": {
         "vs-kubernetes.crd-code-completion": "enabled"
     },
+    "remote.autoForwardPortsSource": "hybrid",
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "diffEditor.renderSideBySide": true,
 }
