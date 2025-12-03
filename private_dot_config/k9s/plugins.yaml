@@ -102,10 +102,31 @@ plugins:
     background: false
     args:
     - -c
-    - '"$@" | less'
+    - '"$@" | less -S'
     - dummy-arg
     - kubectl
     - logs
+    - $NAME
+    - -n
+    - $NAMESPACE
+    - --context
+    - $CONTEXT
+    - --kubeconfig
+    - $KUBECONFIG
+  log-less-previous:
+    shortCut: Shift-P
+    description: "logs|less"
+    scopes:
+    - po
+    command: bash
+    background: false
+    args:
+    - -c
+    - '"$@" | less -S'
+    - dummy-arg
+    - kubectl
+    - logs
+    - --previous
     - $NAME
     - -n
     - $NAMESPACE
@@ -122,10 +143,33 @@ plugins:
     background: false
     args:
     - -c
-    - '"$@" | less'
+    - '"$@" | less -S'
     - dummy-arg
     - kubectl
     - logs
+    - -c
+    - $NAME
+    - $POD
+    - -n
+    - $NAMESPACE
+    - --context
+    - $CONTEXT
+    - --kubeconfig
+    - $KUBECONFIG
+  log-less-container-previous:
+    shortCut: Shift-P
+    description: "logs|less"
+    scopes:
+    - containers
+    command: bash
+    background: false
+    args:
+    - -c
+    - '"$@" | less -S'
+    - dummy-arg
+    - kubectl
+    - logs
+    - --previous
     - -c
     - $NAME
     - $POD
