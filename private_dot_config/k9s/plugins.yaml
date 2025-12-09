@@ -48,7 +48,7 @@ plugins:
     - -E
     - bash
     - -c
-    - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less
+    - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S
   # ESO
   external-secret-refresh:
     shortCut: r
