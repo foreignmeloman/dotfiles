@@ -2,3 +2,8 @@ README.md
 pyproject.toml
 pyinfra/
 pyinfra-debug.log
+
+{{- if eq .chezmoi.os "android" }}
+run_once_before_init.sh.tmpl
+run_onchange_pyinfra.sh.tmpl
+{{- end }}
