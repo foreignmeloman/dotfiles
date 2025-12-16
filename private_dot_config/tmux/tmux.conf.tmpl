@@ -12,8 +12,10 @@ set -g mouse on
 set -g status-left-length 20
 {{- if contains "WSL2" .chezmoi.kernel.osrelease }}
 set -g copy-command '/mnt/c/WINDOWS/system32/clip.exe'  # WSL clipboard hack
-{{- else }}
+{{- else if eq .chezmoi.os "linux" }}
 set -g copy-command 'xclip -sel clip'
+{{- else if eq .chezmoi.os "android" }}
+set -g copy-command 'termux-clipboard-set'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
 bind-key -T copy-mode-vi 'y' send -X copy-selection # vim-like yank for the selected text
