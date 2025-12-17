@@ -14,6 +14,7 @@ test -s ~/.bash_aliases_work && . ~/.bash_aliases_work || true
 
 # {{- $winUserName := "" }}
 # {{- $osReleaseName := includeTemplate "osReleaseName" . }}
+# {{- $kernelosrelease := includeTemplate "kernelosrelease" . }}
 
 # {{- if eq $osReleaseName "openSUSE Tumbleweed" }}
 PATH="${PATH}:/usr/sbin"
@@ -22,7 +23,7 @@ PATH="${PATH}:/usr/sbin"
 PATH="${PATH}:/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.krew/bin"
 test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
-# {{- if contains "WSL2" (.chezmoi.kernel).osrelease }}
+# {{- if contains "WSL2" $kernelosrelease }}
 export TMUX_TMPDIR='/tmp'
 # WSL2 PATH config
 # {{- $winUserName = output "sh" "-c" "/mnt/c/Windows/system32/cmd.exe /c 'echo %UserName%' 2> /dev/null" | trim }}
@@ -57,7 +58,7 @@ alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias python='python3'
-# {{- if contains "WSL2" (.chezmoi.kernel).osrelease }}
+# {{- if contains "WSL2" $kernelosrelease }}
 alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 # {{- else }}
 alias clip='xclip -sel clip'
@@ -73,7 +74,7 @@ fi
 function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
 function teehee { tee ${1}|less; }
-# {{- if not (contains "WSL2" (.chezmoi.kernel).osrelease) }}
+# {{- if not (contains "WSL2" $kernelosrelease) }}
 function _code_wayland {
   /usr/bin/code --ozone-platform=wayland "$@"
 }
@@ -83,7 +84,7 @@ if [ "${XDG_SESSION_TYPE}" == 'wayland' ]; then
 fi
 # {{- end }}
 
-# KeePass WSL2 SSH agent {{- if contains "WSL2" (.chezmoi.kernel).osrelease }}
+# KeePass WSL2 SSH agent {{- if contains "WSL2" $kernelosrelease }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
