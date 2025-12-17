@@ -13,8 +13,9 @@ test -s ~/.bash_aliases_work && . ~/.bash_aliases_work || true
 # Environment Variables #########################
 
 # {{- $winUserName := "" }}
+# {{- $osReleaseName := includeTemplate "osReleaseName" . }}
 
-# {{- if eq .chezmoi.osRelease.name "openSUSE Tumbleweed" }}
+# {{- if eq $osReleaseName "openSUSE Tumbleweed" }}
 PATH="${PATH}:/usr/sbin"
 # {{- end }}
 
@@ -125,7 +126,7 @@ if command -v k9s > /dev/null; then
 fi
 # k9s END
 
-# {{- if eq .chezmoi.osRelease.name "Ubuntu" }} Ubuntu completions
+# {{- if eq $osReleaseName "Ubuntu" }} Ubuntu completions
 # yq ############################################
 if command -v yq > /dev/null; then
   source <(yq shell-completion bash)
