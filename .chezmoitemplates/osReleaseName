@@ -1,5 +1,5 @@
 {{- if eq .chezmoi.os "linux" }}
 {{- .chezmoi.osRelease.name }}
-{{- else if .chezmoi.os "android" }}
+{{- else if eq .chezmoi.os "android" }}
 {{- "android" }}
 {{- end -}}
