@@ -23,3 +23,14 @@ views:
       - STATUS
       - SUSPENDED:.spec.suspend
       - AGE
+  external-secrets.io/v1/externalsecrets:
+    sortColumn: NAME:asc
+    columns:
+      - NAME
+      - STORETYPE|H
+      - STORE|H
+      - STATUS
+      - READY
+      - REFRESH INTERVAL
+      - UPDATED:.status.refreshTime|T
+      - AGE:.metadata.creationTimestamp|T
