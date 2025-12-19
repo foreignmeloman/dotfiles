@@ -48,11 +48,32 @@ plugins:
     - -E
     - bash
     - -c
-    - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S
+    - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S --tilde +g
+  tmux-external-secret-view:
+    shortCut: x
+    description: "View external secret data decoded"
+    scopes:
+    - externalsecrets
+    command: tmux
+    background: true
+    args:
+    - display-popup
+    - -w
+    - 80%
+    - -h
+    - 80%
+    - -E
+    - bash
+    - -c
+    - |
+      SECRET_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get externalsecrets $NAME -o jsonpath='{.spec.target.name}')
+      [[ -z "$SECRET_NAME" ]] && SECRET_NAME="$NAME"
+      kubectl --context=$CONTEXT --namespace=$NAMESPACE get secret "$SECRET_NAME" -o json | \
+        yq eval '.data | to_entries | .[] | .key + ": " + (.value | @base64d)' -P | less -S --tilde +g
   # ESO
   external-secret-refresh:
     shortCut: r
-    description: "Annotate extenal secret to be refreshed immideately"
+    description: "Annotate external secret to be refreshed immediately"
     scopes:
     - externalsecrets
     command: bash
@@ -63,7 +84,7 @@ plugins:
     - kubectl --context=$CONTEXT --namespace=$NAMESPACE annotate $RESOURCE_NAME $NAME force-sync=$(date +%s) --overwrite
   cluster-external-secret-refresh:
     shortCut: r
-    description: "Annotate cluster extenal secret to be refreshed immideately"
+    description: "Annotate cluster external secret to be refreshed immediately"
     scopes:
     - clusterexternalsecrets
     command: bash
