@@ -68,8 +68,15 @@ plugins:
     - |
       SECRET_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get externalsecrets $NAME -o jsonpath='{.spec.target.name}')
       [[ -z "$SECRET_NAME" ]] && SECRET_NAME="$NAME"
-      kubectl --context=$CONTEXT --namespace=$NAMESPACE get secret "$SECRET_NAME" -o json | \
-        yq eval '.data | to_entries | .[] | .key + ": " + (.value | @base64d)' -P | less -S --tilde +g
+      {
+        echo "ExternalSecret: $NAME"
+        echo "Target Secret: $SECRET_NAME"
+        echo "Namespace: $NAMESPACE"
+        echo "Context: $CONTEXT"
+        echo "---"
+        kubectl --context=$CONTEXT --namespace=$NAMESPACE get secret "$SECRET_NAME" -o json | \
+          yq eval '.data | to_entries | .[] | .key + ": " + (.value | @base64d)' -P
+      } | less -S --tilde +g
   # ESO
   external-secret-refresh:
     shortCut: r
