@@ -38,7 +38,6 @@ export PS1='\[\033[38;5;10m\]┌\[\033[38;5;39m\][\u@\[\033[38;5;10m\]\h\[\033[3
 export EDITOR=vim
 export SYSTEMD_EDITOR=vim
 export BAT_STYLE='plain'
-export K9S_FEATURE_GATE_NODE_SHELL=true
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-${HOME}/.ssh}/ssh-agent.socket"
 
 
@@ -60,8 +59,10 @@ alias gcd='cd $(git rev-parse --show-toplevel)'
 alias python='python3'
 # {{- if contains "WSL2" $kernelosrelease }}
 alias clip='/mnt/c/WINDOWS/system32/clip.exe'
-# {{- else }}
+# {{- else if eq .chezmoi.os "linux" }}
 alias clip='xclip -sel clip'
+# {{- else if eq .chezmoi.os "android" }}
+alias clip='termux-clipboard-set'
 # {{- end }}
 if command -v terraform > /dev/null; then
   function tf {
@@ -73,7 +74,7 @@ fi
 # Functions #####################################
 function mkcd { mkdir -p ${1}; cd ${1}; }
 function cheat { curl cheat.sh/${1}; }
-function teehee { tee ${1}|less; }
+function teehee { tee "${1}"|less; }
 # {{- if not (contains "WSL2" $kernelosrelease) }}
 function _code_wayland {
   /usr/bin/code --ozone-platform=wayland "$@"
@@ -84,7 +85,7 @@ if [ "${XDG_SESSION_TYPE}" == 'wayland' ]; then
 fi
 # {{- end }}
 
-# KeePass WSL2 SSH agent {{- if contains "WSL2" $kernelosrelease }}
+# KeePass WSL2 SSH agent ######################## {{- if contains "WSL2" $kernelosrelease }}
 function _ssh_agent_wsl_proxy {
   ss -a | grep -q $1
   if [ $? -ne 0 ] || [ ! -S $1 ]; then
@@ -123,6 +124,7 @@ fi
 # k9s ############################################
 if command -v k9s > /dev/null; then
   # export KUBECACHEDIR=/dev/null
+  export K9S_FEATURE_GATE_NODE_SHELL=true
   source <(k9s completion bash)
 fi
 # k9s END
