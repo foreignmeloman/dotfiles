@@ -24,13 +24,14 @@ bind-key -n c-f send-prefix  # Send prefix to the nested tmux session
 
 # Colors
 # Theme 1
+set -g @status_fg_color green
+set -g @window_fg_color cyan
 set -g status-left '#{?client_prefix,#[reverse],}[#S]#[noreverse] '
-set -g status-style bg=default
-set -g status-fg colour51
+set -g status-style 'fg=#{@status_fg_color},bg=default'
 set-window-option -g window-status-activity-style bg=default
 set -g window-status-separator " "
-set -g window-status-current-format "#[fg=colour51,bg=default]#[fg=black,bg=colour51]#I #W #F#[fg=colour51,bg=default]"
-set -g window-status-format "#[fg=black,bg=default]#[fg=colour51,bg=black]#I #W #{?#{==:#F,},·,#F}#[fg=black,bg=default]"
+set -g window-status-current-format "#[fg=#{@window_fg_color},bg=default]#[fg=black,bg=#{@window_fg_color}]#I #W #F#[fg=#{@window_fg_color},bg=default]"
+set -g window-status-format "#[fg=black,bg=default]#[fg=#{@window_fg_color},bg=black]#I #W #{?#{==:#F,},·,#F}#[fg=black,bg=default]"
 
 # Keybindings
 bind u setw synchronize-panes
