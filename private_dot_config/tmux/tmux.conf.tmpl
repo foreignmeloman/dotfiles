@@ -19,16 +19,19 @@ set -g copy-command 'termux-clipboard-set'
 {{- end }}
 unbind -T copy-mode-vi MouseDragEnd1Pane  # Do not scroll down on mouse selection in the copy mode
 bind-key -T copy-mode-vi 'y' send -X copy-selection # vim-like yank for the selected text
-set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
+# set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'  # Highlight prefix mode
 bind-key -n c-f send-prefix  # Send prefix to the nested tmux session
 
 # Colors
 # Theme 1
+set -g status-left '#{?client_prefix,#[reverse],}[#S]#[noreverse] '
+set -g status-justify centre
+set -g status-style bg=default
 set -g status-fg colour51
-set -g status-bg colour26
-set-window-option -g window-status-current-style fg=black,bg=colour45
-set-window-option -g window-status-style fg=colour51,bg=colour33
-set-window-option -g window-status-activity-style fg=black,bg=colour9
+set-window-option -g window-status-activity-style bg=default
+set -g window-status-separator " "
+set -g window-status-current-format "#[fg=colour51,bg=default]#[fg=black,bg=colour51]#I #W #F#[fg=colour51,bg=default]"
+set -g window-status-format "#[fg=black,bg=default]#[fg=colour51,bg=black]#I #W #{?#{==:#F,},·,#F}#[fg=black,bg=default]"
 
 # Keybindings
 bind u setw synchronize-panes
