@@ -32,38 +32,24 @@ plugins:
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/bash 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/sh 2> /dev/null ||
       kubectl --context=$CONTEXT --namespace=$NAMESPACE exec -it --container=$NAME $POD -- /bin/ash
-  tmux-helm-history:
+  helm-history:
     shortCut: h
-    description: "Helm history tmux popup"
+    description: "Helm history"
     scopes:
     - helm
-    command: tmux
-    background: true
+    command: bash
+    background: false
     args:
-    - display-popup
-    - -w
-    - 80%
-    - -h
-    - 80%
-    - -E
-    - bash
     - -c
     - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S --tilde +g
-  tmux-external-secret-view:
+  external-secret-view:
     shortCut: x
     description: "View external secret data decoded"
     scopes:
     - externalsecrets
-    command: tmux
-    background: true
+    command:  bash
+    background: false
     args:
-    - display-popup
-    - -w
-    - 80%
-    - -h
-    - 80%
-    - -E
-    - bash
     - -c
     - |
       SECRET_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get externalsecrets $NAME -o jsonpath='{.spec.target.name}')
