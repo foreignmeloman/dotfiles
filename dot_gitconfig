@@ -13,11 +13,11 @@
 [rerere]
 	enabled = true
 [alias]
-open-gh-pr = "!f() { \
-    xdg-open \"$(git ls-remote --get-url $(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote) \
-    | sed 's|git@github.com:\\(.*\\)$|https://github.com/\\1|' \
-    | sed 's|\\.git$||'; \
-    )/compare/$(\
-    git config --get branch.$(git rev-parse --abbrev-ref HEAD).merge | cut -d '/' -f 3- \
-    )?expand=1\"; \
-}; f"
+	open-gh-pr = "!f() { \
+		xdg-open \"$(git ls-remote --get-url $(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote) \
+		| sed 's|git@github.com:\\(.*\\)$|https://github.com/\\1|' \
+		| sed 's|\\.git$||'; \
+		)/compare/$(\
+		git config --get branch.$(git rev-parse --abbrev-ref HEAD).merge | cut -d '/' -f 3- \
+		)?expand=1\"; \
+	}; f"
