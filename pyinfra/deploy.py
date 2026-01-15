@@ -131,6 +131,7 @@ if host.get_fact(LinuxName) == 'Ubuntu':
             'tmux',
             'unzip',
         ],
+        update=True,
         _sudo=True,
     )
 
