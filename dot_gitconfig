@@ -13,6 +13,7 @@
 [rerere]
 	enabled = true
 [alias]
+	lg = "log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=iso"
 	open-gh-pr = "!f() { \
 		xdg-open \"$(git ls-remote --get-url $(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote) \
 		| sed 's|git@github.com:\\(.*\\)$|https://github.com/\\1|' \
