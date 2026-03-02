@@ -22,3 +22,25 @@
 		git config --get branch.$(git rev-parse --abbrev-ref HEAD).merge | cut -d '/' -f 3- \
 		)?expand=1\"; \
 	}; f"
+	cleanup = "!f() { \
+		git fetch --prune; \
+		branches=$(git branch -vv | grep \": gone]\" | awk \"{print \\$1}\" | grep -v \"^\\*$\"); \
+		if [ -z \"$branches\" ]; then \
+			echo \"No stale branches found.\"; \
+			return 0; \
+		fi; \
+		echo \"The following branches have missing upstreams:\"; \
+		echo \"$branches\" | sed \"s/^/  - /\"; \
+		echo \"\"; \
+		if [ \"$1\" = \"-f\" ] || [ \"$1\" = \"--force\" ]; then \
+			echo \"$branches\" | xargs git branch -D; \
+		else \
+			printf \"Delete these branches? [y/N] \"; \
+			read confirm; \
+			if [ \"$confirm\" = \"y\" ] || [ \"$confirm\" = \"Y\" ]; then \
+				echo \"$branches\" | xargs git branch -D; \
+			else \
+				echo \"Aborted.\"; \
+			fi; \
+		fi; \
+	}; f"
