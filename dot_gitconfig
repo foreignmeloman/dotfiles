@@ -22,7 +22,7 @@
 		git config --get branch.$(git rev-parse --abbrev-ref HEAD).merge | cut -d '/' -f 3- \
 		)?expand=1\"; \
 	}; f"
-	cleanup = "!f() { \
+	tidy = "!f() { \
 		git fetch --prune; \
 		branches=$(git branch -vv | grep \": gone]\" | awk \"{print \\$1}\" | grep -v \"^\\*$\"); \
 		if [ -z \"$branches\" ]; then \
