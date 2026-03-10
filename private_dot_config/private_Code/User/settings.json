@@ -20,7 +20,7 @@
     "editor.suggestSelection": "first",
     "editor.selectionClipboard": false,
     "editor.lineNumbers": "relative",
-    "window.title": "${dirty}${rootName}${separator}${activeEditorShort}${separator}${profileName}${separator}${appName}",
+    "window.title": "${dirty}${rootNameShort}${separator}${activeEditorShort}${separator}${profileName}${separator}${appName}",
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
@@ -94,7 +94,7 @@
     // "workbench.settings.openDefaultSettings": true,
     "workbench.settings.useSplitJSON": false,
     "window.autoDetectColorScheme": true,
-    "workbench.preferredDarkColorTheme": "One Dark Pro Night Flat",
+    "workbench.preferredDarkColorTheme": "One Dark Pro Darker",
     "workbench.preferredLightColorTheme": "Atom One Light",
     "window.titleBarStyle": "custom",
     // editor END
@@ -205,6 +205,8 @@
     ],
     "scm.defaultViewMode": "tree",
     "scm.graph.badges": "all",
+    "scm.repositories.explorer": true,
+    "scm.repositories.selectionMode": "single",
     //Git END
     // python
     "python.analysis.autoImportCompletions": false,
@@ -279,4 +281,9 @@
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
     "diffEditor.renderSideBySide": true,
+    "claudeCode.preferredLocation": "sidebar",
+    "claudeCode.selectedModel": "opus",
+    "workbench.activityBar.location": "top",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "chat.viewSessions.orientation": "stacked",
 }
