@@ -99,7 +99,7 @@ function _ssh_agent_wsl_proxy {
   fi
 }
 
-_ssh_agent_wsl_proxy $SSH_AUTH_SOCK
+_ssh_agent_wsl_proxy "$SSH_AUTH_SOCK"
 # KeePass WSL2 SSH agent END {{- end }}
 
 # tmux ########################################## {{- if ne $osReleaseName "android" }}

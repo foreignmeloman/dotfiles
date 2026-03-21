@@ -249,16 +249,13 @@
     "terminal.integrated.enableImages": true,
     "terminal.integrated.stickyScroll.enabled": false,
     "update.showReleaseNotes": false,
-    "workbench.iconTheme": "material-icon-theme",
     "errorLens.enabledDiagnosticLevels": [
         "warning",
         "error"
     ],
-    "workbench.colorTheme": "One Dark Pro Darker",
     "projectManager.git.baseFolders": [
         "~/projects"
     ],
-    "workbench.editor.empty.hint": "hidden",
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "chat.commandCenter.enabled": false,
@@ -283,7 +280,6 @@
     "diffEditor.renderSideBySide": true,
     "claudeCode.preferredLocation": "sidebar",
     "claudeCode.selectedModel": "opus",
-    "workbench.activityBar.location": "top",
-    "workbench.secondarySideBar.defaultVisibility": "hidden",
+
     "chat.viewSessions.orientation": "stacked",
 }
