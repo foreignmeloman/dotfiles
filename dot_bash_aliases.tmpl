@@ -6,7 +6,7 @@
 # esac
 
 # Disable crtl-s ctrl-q
-stty -ixon
+[[ -t 0 ]] && stty -ixon
 
 test -s ~/.bash_aliases_work && . ~/.bash_aliases_work || true
 

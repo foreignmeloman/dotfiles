@@ -20,7 +20,10 @@
     "editor.suggestSelection": "first",
     "editor.selectionClipboard": false,
     "editor.lineNumbers": "relative",
+    "window.autoDetectColorScheme": true,
+    "window.newWindowDimensions": "maximized",
     "window.title": "${dirty}${rootNameShort}${separator}${activeEditorShort}${separator}${profileName}${separator}${appName}",
+    "window.titleBarStyle": "custom",
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
@@ -93,10 +96,10 @@
     "workbench.settings.editor": "json",
     // "workbench.settings.openDefaultSettings": true,
     "workbench.settings.useSplitJSON": false,
-    "window.autoDetectColorScheme": true,
     "workbench.preferredDarkColorTheme": "One Dark Pro Darker",
     "workbench.preferredLightColorTheme": "Atom One Light",
-    "window.titleBarStyle": "custom",
+    "workbench.activityBar.location": "top",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
     // editor END
     // Ansible
     "ansible.validation.lint.arguments": "",
@@ -249,13 +252,16 @@
     "terminal.integrated.enableImages": true,
     "terminal.integrated.stickyScroll.enabled": false,
     "update.showReleaseNotes": false,
+    "workbench.iconTheme": "material-icon-theme",
     "errorLens.enabledDiagnosticLevels": [
         "warning",
         "error"
     ],
+    "workbench.colorTheme": "One Dark Pro Darker",
     "projectManager.git.baseFolders": [
         "~/projects"
     ],
+    "workbench.editor.empty.hint": "hidden",
     "extensions.ignoreRecommendations": true,
     "explorer.confirmDragAndDrop": false,
     "chat.commandCenter.enabled": false,
@@ -278,8 +284,8 @@
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
     "diffEditor.renderSideBySide": true,
+    "window.zoomLevel": -1,
     "claudeCode.preferredLocation": "sidebar",
     "claudeCode.selectedModel": "opus",
-
     "chat.viewSessions.orientation": "stacked",
 }
