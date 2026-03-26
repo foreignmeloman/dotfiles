@@ -34,7 +34,18 @@ PATH="${PATH}:/mnt/c/Users/{{ $winUserName }}/AppData/Local/Programs/Microsoft V
 # WSL2 PATH config END {{- end }}
 
 export PATH
-export PS1='\[\033[38;5;10m\]┌\[\033[38;5;39m\][\u@\[\033[38;5;10m\]\h\[\033[38;5;39m\]:\[\033[38;5;14m\]\w\[\033[38;5;39m\]]$(_tmp=$?; test "$(type -t __git_ps1)" = "function" && __git_ps1 "-[\033[38;5;10m%s\033[38;5;39m]"; [[ ${_tmp} != 0 ]] && echo "-[\[\033[0;91m\]${_tmp}\[\033[38;5;39m\]]")\n\[\033[38;5;10m\]└>>>\$ \[$(tput sgr0)\]'
+_build_ps1() {
+    local _exit=$?
+    local _extras=""
+    if type -t __git_ps1 &>/dev/null; then
+        _extras+="$(__git_ps1 "-[\[\033[38;5;10m\]%s\[\033[38;5;39m\]]")"
+    fi
+    if [[ $_exit != 0 ]]; then
+        _extras+="-[\[\033[0;91m\]${_exit}\[\033[38;5;39m\]]"
+    fi
+    PS1='\[\033[38;5;10m\]┌\[\033[38;5;39m\][\u@\[\033[38;5;10m\]\h\[\033[38;5;39m\]:\[\033[38;5;14m\]\w\[\033[38;5;39m\]]'"${_extras}"'\n\[\033[38;5;10m\]└>>>\$ \[$(tput sgr0)\]'
+}
+PROMPT_COMMAND=_build_ps1
 export EDITOR=vim
 export SYSTEMD_EDITOR=vim
 export BAT_STYLE='plain'
