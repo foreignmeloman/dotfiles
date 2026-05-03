@@ -42,6 +42,21 @@ plugins:
     args:
     - -c
     - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S --tilde +g
+  helm-history-helmrelease:
+    shortCut: h
+    description: "Helm history"
+    scopes:
+    - helmreleases
+    command: bash
+    background: false
+    args:
+    - -c
+    - |
+      RELEASE_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.releaseName}')
+      [[ -z "$RELEASE_NAME" ]] && RELEASE_NAME="$NAME"
+      STORAGE_NS=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.storageNamespace}')
+      [[ -z "$STORAGE_NS" ]] && STORAGE_NS="$NAMESPACE"
+      helm --kube-context=$CONTEXT --namespace=$STORAGE_NS history $RELEASE_NAME | less -S --tilde +g
   external-secret-view:
     shortCut: x
     description: "View external secret data decoded"
