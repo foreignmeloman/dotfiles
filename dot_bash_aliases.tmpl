@@ -113,17 +113,6 @@ function _ssh_agent_wsl_proxy {
 _ssh_agent_wsl_proxy "$SSH_AUTH_SOCK"
 # KeePass WSL2 SSH agent END {{- end }}
 
-# tmux ########################################## {{- if ne $osReleaseName "android" }}
-if ! [[ "${TERM_PROGRAM}" =~ vscode|zed ]] && [[ -z "${TMUX}" ]]; then
-  if tmux has-session -t "main" 2> /dev/null; then
-    tmux a -t main
-  else
-    cd
-    tmux new -s main
-  fi
-fi
-# tmux END {{- end }}
-
 # kubectl #######################################
 if command -v kubectl > /dev/null; then
   source <(kubectl completion bash)

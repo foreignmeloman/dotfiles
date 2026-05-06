@@ -1,0 +1,103 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema-preview",
+    "actions":
+    [
+        {
+            "command":
+            {
+                "action": "globalSummon",
+                "monitor": "any"
+            },
+            "id": "User.globalSummon.betterQuakeMode"
+        }
+    ],
+    "alwaysOnTop": true,
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{bc2da056-dd06-5879-b969-1dfcefc8d2c7}",
+    "keybindings":
+    [
+        {
+            "id": "User.globalSummon.betterQuakeMode",
+            "keys": "win+`"
+        },
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "launchMode": "maximized",
+    "minimizeToNotificationArea": true,
+    "newTabMenu":
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles":
+    {
+        "defaults":
+        {
+            "bellStyle": "none",
+            "colorScheme": "Dark+",
+            "cursorColor": "#E5E5E5",
+            "cursorShape": "filledBox",
+            "font":
+            {
+                "face": "Hack Nerd Font",
+                "size": 9
+            },
+            "opacity": 90
+        },
+        "list":
+        [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{bc2da056-dd06-5879-b969-1dfcefc8d2c7}",
+                "hidden": false,
+                "name": "openSUSE-Tumbleweed",
+                "source": "Windows.Terminal.Wsl",
+                "commandline": "wsl.exe -d openSUSE-Tumbleweed ~/.local/bin/terminal_entrypoint.sh"
+            },
+            {
+                "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
+                "hidden": false,
+                "name": "Git Bash",
+                "source": "Git"
+            }
+        ]
+    },
+    "rendering.graphicsAPI": "direct3d11",
+    "schemes": [],
+    "themes": []
+}
