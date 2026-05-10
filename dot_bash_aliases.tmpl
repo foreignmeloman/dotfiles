@@ -54,6 +54,7 @@ export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-${HOME}/.ssh}/ssh-agent.socket"
 
 # Aliases #######################################
 unalias rm 2> /dev/null || true
+alias k=kubectl
 alias cp='cp -i'
 alias mv='mv -i'
 alias ls='ls -a --color --group-directories-first --time-style=long-iso'
@@ -63,8 +64,6 @@ alias egrep='egrep --color'
 alias cget='curl -OJL'
 alias tar='XZ_DEFAULTS="-T 0" tar'
 alias tmux='tmux -2'  # Force 256 color support
-alias rdl='redial'
-alias readf='readlink -f'
 alias gdiff='git diff --no-index'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias python='python3'
@@ -113,14 +112,6 @@ function _ssh_agent_wsl_proxy {
 _ssh_agent_wsl_proxy "$SSH_AUTH_SOCK"
 # KeePass WSL2 SSH agent END {{- end }}
 
-# kubectl #######################################
-if command -v kubectl > /dev/null; then
-  source <(kubectl completion bash)
-  alias k=kubectl
-  complete -o default -F __start_kubectl k
-fi
-# kubectl END
-
 # k9s ############################################
 if command -v k9s > /dev/null; then
   # export KUBECACHEDIR=/dev/null
@@ -147,7 +138,15 @@ if command -v chezmoi > /dev/null; then
   source <(chezmoi completion bash)
 fi
 # chezmoi END
+
+# kubectl #######################################
+if command -v kubectl > /dev/null; then
+  source <(kubectl completion bash)
+fi
+# kubectl END
 # Ubuntu completions {{- end }}
+
+complete -o default -F __start_kubectl k
 
 # # ruff ##########################################
 # if command -v ruff > /dev/null; then
