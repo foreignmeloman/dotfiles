@@ -146,7 +146,13 @@ fi
 # kubectl END
 # Ubuntu completions {{- end }}
 
-complete -o default -F __start_kubectl k
+# Ensure __start_kubectl is defined before aliasing completion onto `k`.
+# On Ubuntu it's sourced above; on openSUSE bash-completion lazy-loads it
+# via its generic fallback (`_kubectl`) — trigger that here.
+if ! declare -F __start_kubectl > /dev/null && declare -F _completion_loader > /dev/null; then
+  _completion_loader kubectl 2> /dev/null
+fi
+declare -F __start_kubectl > /dev/null && complete -o default -F __start_kubectl k
 
 # # ruff ##########################################
 # if command -v ruff > /dev/null; then
