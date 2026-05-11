@@ -1,4 +1,6 @@
 # vim: syntax=bash:
+[[ -n ${_USER_BASH_COMPLETION_LOADED:-} ]] && return
+_USER_BASH_COMPLETION_LOADED=1
 
 if test -d ~/.local/share/bash_completion.d; then
   for bcfile in ~/.local/share/bash_completion.d/*; do

@@ -65,7 +65,5 @@ function _terraform_completion {
 }
 
 # Register the completion function
-if command -v terraform > /dev/null; then
-  complete -F _terraform_completion terraform
-  complete -F _terraform_completion tf
-fi
+complete -F _terraform_completion terraform
+complete -F _terraform_completion tf
