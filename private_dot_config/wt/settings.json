@@ -87,7 +87,7 @@
                 "hidden": false,
                 "name": "openSUSE-Tumbleweed",
                 "source": "Windows.Terminal.Wsl",
-                "commandline": "wsl.exe -d openSUSE-Tumbleweed ~/.local/bin/terminal_entrypoint.sh"
+                "commandline": "wsl.exe -d openSUSE-Tumbleweed bash -i ~/.local/bin/terminal_entrypoint.sh"
             },
             {
                 "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
