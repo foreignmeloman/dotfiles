@@ -1,0 +1,7 @@
+{
+	"file_types": {
+		"Shell Script": ["dot_bash*"],
+		"Git Config": ["*gitconfig"],
+		"Go Text Template": ["**/.chezmoitemplates/**"]
+	}
+}
