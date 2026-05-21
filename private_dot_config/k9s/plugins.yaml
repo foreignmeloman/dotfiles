@@ -42,6 +42,44 @@ plugins:
     args:
     - -c
     - helm --kube-context=$CONTEXT --namespace=$NAMESPACE history $NAME | less -S --tilde +g
+  helm-values-helmrelease:
+    shortCut: v
+    description: "Helm values"
+    scopes:
+    - helmreleases
+    command: bash
+    background: false
+    args:
+    - -c
+    - |
+      RELEASE_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.releaseName}')
+      [[ -z "$RELEASE_NAME" ]] && RELEASE_NAME="$NAME"
+      STORAGE_NS=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.storageNamespace}')
+      [[ -z "$STORAGE_NS" ]] && STORAGE_NS="$NAMESPACE"
+      if command -v moor &> /dev/null; then
+        helm --kube-context=$CONTEXT --namespace=$STORAGE_NS get values $RELEASE_NAME | moor -lang yaml
+      else
+        helm --kube-context=$CONTEXT --namespace=$STORAGE_NS get values $RELEASE_NAME | less -S --tilde +g
+      fi
+  helm-manifest-helmrelease:
+    shortCut: m
+    description: "Helm manifest"
+    scopes:
+    - helmreleases
+    command: bash
+    background: false
+    args:
+    - -c
+    - |
+      RELEASE_NAME=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.releaseName}')
+      [[ -z "$RELEASE_NAME" ]] && RELEASE_NAME="$NAME"
+      STORAGE_NS=$(kubectl --context=$CONTEXT --namespace=$NAMESPACE get helmrelease $NAME -o jsonpath='{.spec.storageNamespace}')
+      [[ -z "$STORAGE_NS" ]] && STORAGE_NS="$NAMESPACE"
+      if command -v moor &> /dev/null; then
+        helm --kube-context=$CONTEXT --namespace=$STORAGE_NS get manifest $RELEASE_NAME | moor -lang yaml
+      else
+        helm --kube-context=$CONTEXT --namespace=$STORAGE_NS get manifest $RELEASE_NAME | less -S --tilde +g
+      fi
   helm-history-helmrelease:
     shortCut: h
     description: "Helm history"
