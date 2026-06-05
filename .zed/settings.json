@@ -1,7 +1,8 @@
 {
-	"file_types": {
-		"Shell Script": ["dot_bash*"],
-		"Git Config": ["*gitconfig"],
-		"Go Text Template": ["**/.chezmoitemplates/**"]
-	}
+    "file_types": {
+        "Shell Script": ["**/dot_bash*"],
+        "Git Config": ["*gitconfig"],
+        "Go Text Template": ["**/.chezmoitemplates/*"],
+        "tmux": ["**/tmux.conf.tmpl"]
+    }
 }
