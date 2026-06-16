@@ -36,7 +36,7 @@ views:
     columns:
       - NAME
       - STORETYPE|H
-      - STORE|H
+      - STORE
       - STATUS
       - READY
       - REFRESH INTERVAL
