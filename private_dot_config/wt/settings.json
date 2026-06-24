@@ -1,11 +1,9 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema-preview",
-    "actions":
-    [
+    "actions": [
         {
-            "command":
-            {
+            "command": {
                 "action": "globalSummon",
                 "monitor": "any"
             },
@@ -16,8 +14,7 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{bc2da056-dd06-5879-b969-1dfcefc8d2c7}",
-    "keybindings":
-    [
+    "keybindings": [
         {
             "id": "User.globalSummon.betterQuakeMode",
             "keys": "win+`"
@@ -41,29 +38,24 @@
     ],
     "launchMode": "maximized",
     "minimizeToNotificationArea": true,
-    "newTabMenu":
-    [
+    "newTabMenu": [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles":
-    {
-        "defaults":
-        {
+    "profiles": {
+        "defaults": {
             "bellStyle": "none",
             "colorScheme": "Dark+",
             "cursorColor": "#E5E5E5",
             "cursorShape": "filledBox",
-            "font":
-            {
+            "font": {
                 "face": "Hack Nerd Font",
                 "size": 9
             },
             "opacity": 90
         },
-        "list":
-        [
+        "list": [
             {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -87,7 +79,7 @@
                 "hidden": false,
                 "name": "openSUSE-Tumbleweed",
                 "source": "Windows.Terminal.Wsl",
-                "commandline": "wsl.exe -d openSUSE-Tumbleweed bash -i ~/.local/bin/terminal_entrypoint.sh"
+                "commandline": "wsl.exe -d openSUSE-Tumbleweed bash -i ~/.local/bin/terminal_entrypoint.sh; /bin/bash"
             },
             {
                 "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
