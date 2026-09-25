@@ -1,0 +1,14 @@
+schema_version = 2
+
+[[commands]]
+name = "View external secret data decoded"
+palette = "external-secret-view"
+command = "./external-secret-view"
+args = ["$CONTEXT", "$NAMESPACE", "$NAME"]
+key = "x"
+scopes = ["externalsecrets"]
+requires = ["bash", "kubectl", "yq"]
+install = "Install bash, kubectl, and mikefarah/yq v4."
+output = "popup"
+mutating = false
+timeout = "30s"
