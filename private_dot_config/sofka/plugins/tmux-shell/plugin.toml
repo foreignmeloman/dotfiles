@@ -1,0 +1,31 @@
+schema_version = 2
+
+[[commands]]
+name = "Tmux shell"
+palette = "tmux-shell"
+command = "./tmux-shell"
+args = ["pod", "$CONTEXT", "$NAMESPACE", "$NAME", ""]
+key = "x"
+scopes = ["pods"]
+requires = ["bash", "kubectl", "tmux"]
+install = "Install bash, kubectl, and tmux."
+output = "background"
+mutating = true
+timeout = "10s"
+
+[[commands]]
+name = "Tmux shell (container)"
+palette = "tmux-shell-container"
+command = "./tmux-shell-container"
+args = ["container", "$CONTEXT", "$NAMESPACE", "$NAME", "${input.container}"]
+key = "alt-x"
+scopes = ["pods"]
+requires = ["bash", "kubectl", "tmux", "yq"]
+install = "Install bash, kubectl, tmux, and mikefarah/yq v4."
+output = "background"
+mutating = true
+timeout = "10s"
+
+[commands.inputs.container]
+type = "string"
+default = ""

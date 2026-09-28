@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+die() {
+  printf 'tmux-shell: %s\n' "$1" >&2
+  exit 2
+}
+
+run_remote_shell() {
+  local remote_shell=$1
+  local -a command=(kubectl)
+
+  [[ -z $context ]] || command+=(--context "$context")
+  [[ -z $namespace ]] || command+=(--namespace "$namespace")
+  command+=(exec -it)
+  [[ -z $container ]] || command+=(--container "$container")
+  command+=("$pod" -- "$remote_shell")
+
+  "${command[@]}"
+}
+
+run_session() {
+  (( $# >= 6 )) || die "invalid tmux session arguments"
+
+  local mode=$2
+  context=$3
+  namespace=$4
+  pod=$5
+  container=$6
+  local -a candidates=("${@:7}")
+
+  [[ -n $pod ]] || die "no pod is selected"
+  case $mode in
+    pod)
+      container=
+      ;;
+    container)
+      if [[ -z $container ]]; then
+        case ${#candidates[@]} in
+          0)
+            die "the selected pod has no containers"
+            ;;
+          1)
+            container=${candidates[0]}
+            ;;
+          *)
+            printf 'Select a container in pod %s:\n' "$pod"
+            PS3='Container number: '
+            select choice in "${candidates[@]}"; do
+              if [[ -n ${choice-} ]]; then
+                container=$choice
+                break
+              fi
+              printf 'Invalid selection.\n' >&2
+            done
+            ;;
+        esac
+      fi
+      ;;
+    *)
+      die "unknown mode: $mode"
+      ;;
+  esac
+
+  run_remote_shell /bin/bash 2>/dev/null ||
+    run_remote_shell /bin/sh 2>/dev/null ||
+    run_remote_shell /bin/ash
+}
+
+if [[ ${1-} == --session ]]; then
+  run_session "$@"
+  exit
+fi
+
+(( $# == 5 )) || die "invalid plugin arguments"
+
+mode=$1
+context=$2
+namespace=$3
+pod=$4
+container=$5
+
+[[ -n $pod ]] || die "no pod is selected"
+[[ $mode == pod || $mode == container ]] || die "unknown mode: $mode"
+
+# Package adapters receive the selected Pod as JSON on stdin. The container
+# variant uses it to build its chooser without making another API request.
+request=$(cat)
+candidates=()
+if [[ $mode == container ]]; then
+  mapfile -t candidates < <(
+    yq eval -r \
+      '.object.spec | [.initContainers[]?.name, .containers[]?.name, .ephemeralContainers[]?.name] | unique | .[]' \
+      <<<"$request"
+  )
+fi
+
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+tmux_args=(tmux split-window -v)
+if [[ -n ${KUBECONFIG-} ]]; then
+  tmux_args+=(-e "KUBECONFIG=$KUBECONFIG")
+fi
+
+"${tmux_args[@]}" \
+  "$script_dir/tmux-shell" --session \
+  "$mode" "$context" "$namespace" "$pod" "$container" "${candidates[@]}"
