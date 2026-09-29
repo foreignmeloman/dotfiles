@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+fail() {
+  printf 'k9s-pv-free-space: %s\n' "$1" >&2
+  exit 2
+}
+
+print_header() {
+  printf 'PersistentVolume: %s\n' "${pv_name:--}"
+  printf 'PersistentVolumeClaim: %s\n' "${claim_namespace:+$claim_namespace/}${claim_name:--}"
+  printf 'Phase: %s\n' "${phase:--}"
+  printf 'Capacity: %s\n' "${capacity:--}"
+  printf 'Volume mode: %s\n' "$volume_mode"
+}
+
+human_bytes() {
+  local value=$1
+  if [[ ! $value =~ ^[0-9]+$ ]]; then
+    printf '-'
+    return
+  fi
+
+  awk -v bytes="$value" 'BEGIN {
+    split("B KiB MiB GiB TiB PiB EiB", units, " ")
+    size = bytes + 0
+    unit = 1
+    while (size >= 1024 && unit < 7) {
+      size /= 1024
+      unit++
+    }
+    if (unit == 1) printf "%.0f %s", size, units[unit]
+    else printf "%.1f %s", size, units[unit]
+  }'
+}
+
+usage_percent() {
+  local used=$1
+  local total=$2
+  if [[ ! $used =~ ^[0-9]+$ || ! $total =~ ^[0-9]+$ || $total == 0 ]]; then
+    printf '-'
+    return
+  fi
+
+  awk -v used="$used" -v total="$total" 'BEGIN { printf "%.1f%%", used * 100 / total }'
+}
+
+(( $# == 4 )) || fail "expected CONTEXT NAMESPACE RESOURCE NAME"
+
+context=$1
+namespace=$2
+resource=$3
+name=$4
+
+[[ -n $resource ]] || fail "no resource type was supplied by k9s"
+[[ -n $name ]] || fail "no resource is selected"
+
+kubectl_command=(kubectl)
+if [[ -n $context && $context != null ]]; then
+  kubectl_command+=(--context "$context")
+fi
+if [[ -n $namespace && $namespace != all && $namespace != - ]]; then
+  kubectl_command+=(--namespace "$namespace")
+fi
+
+if ! object=$("${kubectl_command[@]}" get "$resource" "$name" -o json); then
+  fail "could not read the selected $resource/$name"
+fi
+
+kind=$(yq eval -r '.kind // ""' <<<"$object")
+case $kind in
+  PersistentVolumeClaim)
+    claim_namespace=$(yq eval -r '.metadata.namespace // ""' <<<"$object")
+    claim_name=$(yq eval -r '.metadata.name // ""' <<<"$object")
+    pv_name=$(yq eval -r '.spec.volumeName // ""' <<<"$object")
+    phase=$(yq eval -r '.status.phase // ""' <<<"$object")
+    capacity=$(yq eval -r '.status.capacity.storage // .spec.resources.requests.storage // ""' <<<"$object")
+    volume_mode=$(yq eval -r '.spec.volumeMode // "Filesystem"' <<<"$object")
+    ;;
+  PersistentVolume)
+    pv_name=$(yq eval -r '.metadata.name // ""' <<<"$object")
+    claim_namespace=$(yq eval -r '.spec.claimRef.namespace // ""' <<<"$object")
+    claim_name=$(yq eval -r '.spec.claimRef.name // ""' <<<"$object")
+    phase=$(yq eval -r '.status.phase // ""' <<<"$object")
+    capacity=$(yq eval -r '.spec.capacity.storage // ""' <<<"$object")
+    volume_mode=$(yq eval -r '.spec.volumeMode // "Filesystem"' <<<"$object")
+    ;;
+  *)
+    fail "selected object is $kind, not a PersistentVolume or PersistentVolumeClaim"
+    ;;
+esac
+
+if [[ $volume_mode == Block ]]; then
+  print_header
+  printf '\nFree space: unavailable\n'
+  printf 'Reason: block volumes do not expose filesystem free space.\n'
+  exit
+fi
+
+if [[ -z $claim_namespace || -z $claim_name ]]; then
+  print_header
+  printf '\nFree space: unavailable\n'
+  printf 'Reason: this PersistentVolume is not bound to a claim.\n'
+  exit
+fi
+
+pod_command=(kubectl)
+if [[ -n $context && $context != null ]]; then
+  pod_command+=(--context "$context")
+fi
+
+if ! pods_json=$("${pod_command[@]}" --namespace "$claim_namespace" get pods -o json); then
+  print_header
+  printf '\nFree space: unavailable\n'
+  printf 'Reason: pods in namespace %s could not be listed.\n' "$claim_namespace"
+  exit
+fi
+
+mapfile -t mounts < <(
+  # shellcheck disable=SC2016 # $pod is a yq variable.
+  CLAIM_NAME=$claim_name yq eval -r '
+    .items[] as $pod |
+    select($pod.status.phase != "Succeeded" and $pod.status.phase != "Failed") |
+    select($pod.metadata.deletionTimestamp == null) |
+    $pod.spec.volumes[]? |
+    select(.persistentVolumeClaim.claimName == strenv(CLAIM_NAME)) |
+    [$pod.metadata.name, ($pod.spec.nodeName // "-")] | @tsv
+  ' <<<"$pods_json"
+)
+
+if (( ${#mounts[@]} == 0 )); then
+  print_header
+  printf '\nFree space: unavailable\n'
+  printf 'Reason: no active pod references this claim.\n'
+  printf 'A volume must be mounted before its filesystem usage can be measured.\n'
+  exit
+fi
+
+declare -A seen_nodes=()
+nodes=()
+
+for mount in "${mounts[@]}"; do
+  IFS=$'\t' read -r pod node <<<"$mount"
+  [[ -n $pod && -n $node && $node != - ]] || continue
+  [[ -z ${seen_nodes[$node]+present} ]] || continue
+  seen_nodes[$node]=1
+  nodes+=("$node")
+done
+
+if (( ${#nodes[@]} == 0 )); then
+  print_header
+  printf '\nFree space: unavailable\n'
+  printf 'Reason: pods referencing this claim have not been scheduled to a node.\n'
+  exit
+fi
+
+results=()
+errors=()
+
+for node in "${nodes[@]:0:12}"; do
+  endpoint=/api/v1/nodes/$node/proxy/stats/summary
+  if ! summary_json=$("${pod_command[@]}" get --raw "$endpoint" 2>&1); then
+    compact_error=${summary_json//$'\n'/; }
+    errors+=("$node — ${compact_error:0:300}")
+    continue
+  fi
+
+  mapfile -t node_stats < <(
+    # shellcheck disable=SC2016 # yq fields and strenv values are intentional.
+    CLAIM_NAMESPACE=$claim_namespace CLAIM_NAME=$claim_name yq eval -r '
+      .pods[]?.volume[]? |
+      select(
+        .pvcRef.namespace == strenv(CLAIM_NAMESPACE) and
+        .pvcRef.name == strenv(CLAIM_NAME)
+      ) |
+      [
+        (.capacityBytes // "NA"),
+        (.usedBytes // "NA"),
+        (.availableBytes // "NA"),
+        (.inodes // "NA"),
+        (.inodesUsed // "NA"),
+        (.inodesFree // "NA"),
+        (.time // "NA")
+      ] | @tsv
+    ' <<<"$summary_json"
+  )
+
+  (( ${#node_stats[@]} > 0 )) || continue
+  results+=("$node"$'\t'"${node_stats[0]}")
+done
+
+print_header
+
+if (( ${#results[@]} > 0 )); then
+  printf 'Source: kubelet Summary API\n'
+  for result in "${results[@]}"; do
+    IFS=$'\t' read -r node total used available inodes inodes_used inodes_free updated <<<"$result"
+    printf '\nNode: %s\n' "$node"
+    printf 'Capacity: %s\n' "$(human_bytes "$total")"
+    printf 'Used: %s\n' "$(human_bytes "$used")"
+    printf 'Available: %s\n' "$(human_bytes "$available")"
+    printf 'Usage: %s\n' "$(usage_percent "$used" "$total")"
+    printf 'Inodes: %s used / %s free / %s total\n' \
+      "${inodes_used/NA/-}" "${inodes_free/NA/-}" "${inodes/NA/-}"
+    printf 'Updated: %s\n' "${updated/NA/-}"
+  done
+  exit
+fi
+
+printf '\nFree space: unavailable\n'
+printf 'Reason: kubelet summaries contained no statistics for this claim.\n'
+printf 'The storage driver may not implement volume statistics, or collection may still be pending.\n'
+printf 'Access also requires permission to get the nodes/proxy subresource.\n'
+if (( ${#errors[@]} > 0 )); then
+  printf '\nSummary API errors:\n'
+  for error in "${errors[@]}"; do
+    printf -- '- %s\n' "$error"
+  done
+fi

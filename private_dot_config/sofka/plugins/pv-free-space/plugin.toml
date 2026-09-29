@@ -1,0 +1,14 @@
+schema_version = 2
+
+[[commands]]
+name = "Volume free space"
+palette = "pv-free-space"
+command = "./pv-free-space"
+args = ["$CONTEXT"]
+key = "f"
+scopes = ["persistentvolumes", "persistentvolumeclaims"]
+requires = ["awk", "bash", "kubectl", "yq"]
+install = "Install awk, bash, kubectl, and mikefarah/yq v4."
+output = "popup"
+mutating = false
+timeout = "45s"

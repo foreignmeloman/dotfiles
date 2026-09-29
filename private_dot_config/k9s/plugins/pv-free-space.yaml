@@ -1,0 +1,22 @@
+plugins:
+  pv-free-space:
+    shortCut: f
+    override: true
+    confirm: false
+    dangerous: false
+    description: Volume free space
+    scopes:
+      - pv
+      - pvc
+    command: bash
+    background: false
+    args:
+      - -c
+      - |
+        set -o pipefail
+        "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/pv-free-space" "$@" 2>&1 | less -S --tilde +g
+      - k9s-pv-free-space
+      - $CONTEXT
+      - $NAMESPACE
+      - $RESOURCE_NAME
+      - $NAME
